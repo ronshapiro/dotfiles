@@ -12,8 +12,8 @@
 (setq backup-directory-alist  '((".*" . "~/.emacs_tmps/")))
 
 ;;Column and line numbers
-;(line-number-mode 1)
-;(column-number-mode 1)
+(line-number-mode 1)
+(column-number-mode 1)
 
 ;Set max line length
 ;(setq-default fill-column 79)
@@ -25,15 +25,13 @@
 (setq save-place-file "~/.emacs.d/saved-places")
 
 (require 'fill-column-indicator) ;80 char bar
-(fci-mode)
-(setq fci-rule-column 80)
+(setq fci-rule-column 80) ;this isn't working, so i updated the value in .emacs.d/fill-column-indicator.el from nil to 80
 (setq fci-rule-width 1)
-(setq fci-dash-pattern 1)
-(setq fci-rule-color "green")
+(setq fci-rule-color "blue")
+;(fci-mode)
+(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
+(global-fci-mode 1)
 
-;abcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdef
-;(setq line-move-visual nil)
-;(setq track-eol t)
 
 ; have comment lines extend all of coloring
 (set-face-foreground 'font-lock-comment-face "Red")

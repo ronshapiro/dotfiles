@@ -28,7 +28,7 @@
 (setq fci-rule-column 80) ;this isn't working, so i updated the value in .emacs.d/fill-column-indicator.el from nil to 80
 (setq fci-rule-width 1)
 (setq fci-rule-color "blue")
-;(fci-mode)
+
 (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode 1)
 

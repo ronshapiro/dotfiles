@@ -2,7 +2,6 @@
 
 txtplain='\033[2m'
 txtend='\033[0m'
-
 txtblk='\033[0;30m' # Black - Regular
 txtred='\033[0;31m' # Red
 txtgrn='\033[0;32m' # Green
@@ -35,9 +34,10 @@ bakblu='\033[44m'   # Blue
 bakpur='\033[45m'   # Purple
 bakcyn='\033[46m'   # Cyan
 bakwht='\033[47m'   # White
-txtrst='\033[0m'    # Text Reset
 
-export PS1="${undgrn}\w\e[m\$(parse_git) \$ "
+#PROMPT_COMMAND tells bash to call format_PS1 every time prompt is requested,
+#which will set PS1
+PROMPT_COMMAND=format_PS1 
 
 export EDITOR=emacs
 export RUBYOPT="w"
@@ -46,16 +46,15 @@ export ANDROID_HOME=~/coding/android-sdks
 alias aliases="alias -p" #print all aliases
 alias .bash_profile="$EDITOR ~/.bash_profile"
 alias reload_bash="source ~/.bash_profile"
+alias .reload_bash=reload_bash
 alias e=emacs
-alias cdanimation="cd ~/Documents/College/Classes/4a\ Fall\ 2012/Animation"
 alias ackl="ack -i --literal"
 alias .emacs="$EDITOR ~/.emacs"
 alias ls="ls -G"
 alias mkdir="mkdir -p" #create intermediate path for directory
 alias untar="tar -zxvf"
 alias pt="ps -e -o pid,command | grep"
-LSCOLORS="bx"
-export LSCOLORS
+export LSCOLORS="bx"
 
 ## Notes Section
 ## convert -> convert between image types
@@ -63,50 +62,49 @@ export LSCOLORS
 ## git config --system --add color.ui always
 
 # thank you @shreyansb (https://github.com/shreyansb/dotfiles/blob/master/bash/bash_profile)
-function parse_git {
-    git_branch="$(__git_ps1 "%s")"
-    output="${git_branch}"
-    if [[ -z $output ]]; then
-        return
-    fi
+# and https://gist.github.com/31967 for PROMPT_COMMAND
+function format_PS1() {
+    git_branch="$(__git_ps1 "%s")" 
+    output="${git_branch}" #output will be changed but you want to save git_branch for later
 
-    if [[ $git_branch == "master-dotfiles" ]]; then
-        return
-    fi
-
-    status="$(git status 2>/dev/null)"
-    
-    git_branch="$(__git_ps1 "%s")"
-    # to add a warning for a branch, do `git config --local --add branch.BRANCHNAME.editwarning true` and unset with `git config --local --unset branch.BRANCHNAME.editwarning
-    branch_warning="branch.${git_branch}.editwarning=true"
-    hide="$(git config -l)"
-    
-    if [[ $hide =~ $branch_warning ]]; then
-        output="${bakred} -- ${output} -- ${txtend}"
+    if [[ -z $git_branch ]]; then
+        output=""
+    #bplock the dotfiles repo from showing the branch
+    elif [[ $git_branch == "master-dotfiles" ]]; then
+        output=""
     else
-        output="(${output})"
+        status="$(git status 2>/dev/null)"
+        
+        # to add a warning for a branch, do `git config --local --add branch.BRANCHNAME.editwarning true` and unset with `git config --local --unset branch.BRANCHNAME.editwarning
+        branch_warning="branch.${git_branch}.editwarning=true"
+        hide="$(git config -l)"
+        
+        if [[ $hide =~ $branch_warning ]]; then
+            output="\[${bakred}\] -- ${output} -- \[${txtend}\]"
+        else
+            output="(${output})"
+        fi
+        
+        if [[ $status =~ "Untracked files" ]]; then
+            output="\[${txtylw}\]${output}\[${txtend}\]"
+        elif [[ $status =~ "Changes not staged for commit" ]]; then
+            output="\[${txtylw}\]${output}\[${txtend}\]"
+        elif [[ $status =~ "Changes to be committed" ]]; then
+            output="\[${txtpur}\]${output}\[${txtend}\]"
+        elif [[ $status =~ "Your branch is ahead" ]]; then
+            output="\[${txtcyn}\]${output}\[${txtend}\]"
+        elif [[ $status =~ "nothing to commit" ]]; then
+            output="\[${txtblu}\]${output}\[${txtend}\]"
+        fi
+        output=" $output"
     fi
     
-    if [[ $status =~ "Untracked files" ]]; then
-        output="${txtylw}${output}${txtend}"
-    elif [[ $status =~ "Changes not staged for commit" ]]; then
-        output="${txtylw}${output}${txtend}"
-    elif [[ $status =~ "Changes to be committed" ]]; then
-        output="${txtpur}${output}${txtend}"
-    elif [[ $status =~ "Your branch is ahead" ]]; then
-        output="${txtcyn}${output}${txtend}"
-    elif [[ $status =~ "nothing to commit" ]]; then
-        output="${txtblu}${output}${txtend}"
-    fi
-
-    echo -e " $output"
+    export PS1="\[${undgrn}\]\w\[\e[m\]$output \$ "
 }
 
-export RAILS_PORT=3000
 alias cdv="cd ~/coding/venmo-android/"
 alias crash="cd ~/Documents/Code/Venmo/crash-reporter"
 alias cdscripts="cd /usr/local/mybin/"
-
 
 #venmo
 export VGIT_USERNAME=ronshapiro # use your github username
@@ -119,7 +117,7 @@ fi
 
 #running `brew --prefix` takes ~.7 seconds - running it twice took 
 #quite a while. I put replaced it with "/usr/local", which is what
-#the default is.  The two replaced calls with the 
+#the default is.
 if [ -f /usr/local/etc/bash_completion ]; then
   . /usr/local/etc/bash_completion
 fi
@@ -145,4 +143,3 @@ alias chrome-no-security="open -a /Applications/Google\ Chrome.app --args --disa
 alias clic="ssh -X rds2149@clic.cs.columbia.edu"
 alias cunix="ssh rds2149@cunix.cc.columbia.edu"
 alias mcoder="mencoder mf://pngs/*.png -mf fps=50 -ovc lavc -lavcopts vcodec=msmpeg4v2 -oac copy -o recording.avi"
-

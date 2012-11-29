@@ -70,6 +70,10 @@ function parse_git {
         return
     fi
 
+    if [[ $git_branch == "master-dotfiles" ]]; then
+        return
+    fi
+
     status="$(git status 2>/dev/null)"
     
     git_branch="$(__git_ps1 "%s")"
@@ -141,3 +145,4 @@ alias chrome-no-security="open -a /Applications/Google\ Chrome.app --args --disa
 alias clic="ssh -X rds2149@clic.cs.columbia.edu"
 alias cunix="ssh rds2149@cunix.cc.columbia.edu"
 alias mcoder="mencoder mf://pngs/*.png -mf fps=50 -ovc lavc -lavcopts vcodec=msmpeg4v2 -oac copy -o recording.avi"
+

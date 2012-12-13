@@ -54,7 +54,17 @@ alias ls="ls -G"
 alias mkdir="mkdir -p" #create intermediate path for directory
 alias untar="tar -zxvf"
 alias pt="ps -e -o pid,command | grep"
+alias start_apache="sudo apachectl restart"
 export LSCOLORS="bx"
+
+function xkcdnode(){
+    cd ~/coding/xkcd-node
+    alias server="supervisor -w .,db,util,email app.js"
+    alias scrape="curl localhost:5000/scrape"
+    alias comics_drop="curl localhost:5000/comics_drop"
+    alias whatifs_drop="curl localhost:5000/whatifs_drop"
+    alias users_drop="curl localhost:5000/users_drop"
+}
 
 ## Notes Section
 ## convert -> convert between image types
@@ -143,3 +153,5 @@ alias chrome-no-security="open -a /Applications/Google\ Chrome.app --args --disa
 alias clic="ssh -X rds2149@clic.cs.columbia.edu"
 alias cunix="ssh rds2149@cunix.cc.columbia.edu"
 alias mcoder="mencoder mf://pngs/*.png -mf fps=50 -ovc lavc -lavcopts vcodec=msmpeg4v2 -oac copy -o recording.avi"
+
+alias saveToICloud="defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool" # use this alias followed by true/false

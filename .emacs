@@ -2,8 +2,22 @@
 
 (setq c-basic-offset 2)
 ;(setq standard-indent 2)
-;(setq tab-width 2)
+;(setq default-tab-width 2)
+(setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
+;(setq indent-line-function 'insert-tab)
+(setq js-indent-level 2)
+(setq java-indent-level 2)
+(setq java-indent-offset 2)
+(add-hook 'java-mode-hook
+          (lambda () (setq c-basic-offset 2)))
+(add-hook 'c-mode-hook
+          (lambda () (setq c-basic-offset 2)))
+  
+;(global-set-key (kbd "TAB") 'indent-according-to-mode)
+;(global-set-key (kbd "TAB") 'indent-for-tab-command)
+;(global-set-key (kbd "C-i") 'indent-relative)
+
 (setq scroll-step 1) ; When you reach the end of the screen and then go to the next line,
 		     ; only move the page down one line instead of several
 
@@ -31,7 +45,6 @@
 
 (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode 1)
-
 
 ; have comment lines extend all of coloring
 (set-face-foreground 'font-lock-comment-face "Red")

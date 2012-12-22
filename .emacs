@@ -18,8 +18,9 @@
 ;(global-set-key (kbd "TAB") 'indent-for-tab-command)
 ;(global-set-key (kbd "C-i") 'indent-relative)
 
-(setq scroll-step 1) ; When you reach the end of the screen and then go to the next line,
-		     ; only move the page down one line instead of several
+; When you reach the end of the screen and then go to the next line, only move
+; the page down one line instead of several
+(setq scroll-step 1) 
 
 (setq temp-directory "~/.emacs_tmps/")
 ;;Save all file backups to a special location.
@@ -39,7 +40,9 @@
 (setq save-place-file "~/.emacs.d/saved-places")
 
 (require 'fill-column-indicator) ;80 char bar
-(setq fci-rule-column 80) ;this isn't working, so i updated the value in .emacs.d/fill-column-indicator.el from nil to 80
+; (setq fci-rule-column 80) isn't working, so i updated the value in
+; .emacs.d/fill-column-indicator.el from nil to 80
+(setq fci-rule-column 80) 
 (setq fci-rule-width 1)
 (setq fci-rule-color "blue")
 
@@ -137,10 +140,34 @@
 
 (kill-buffer "*scratch*") ;remove *scratch* buffer by default
 
-;mouse mode
+;; Enable mouse support in terminal
+(unless window-system
+  (require 'mouse)
+  (xterm-mouse-mode t)
+  (global-set-key [mouse-4] '(lambda ()
+                               (interactive)
+                               (scroll-down 1)))
+  (global-set-key [mouse-5] '(lambda ()
+                               (interactive)
+                               (scroll-up 1)))
+  (defun track-mouse (e))
+  (setq mouse-sel-mode t)
+  )
+
+;; mouse support in osx terminal
 (require 'mouse)
 (xterm-mouse-mode t)
 (defun track-mouse (e))
 (setq mouse-sel-mode t)
-(global-set-key (kbd "<mouse-5>") 'next-line)
-(global-set-key (kbd "<mouse-4>") 'previous-line)
+
+
+;; follow symlinks to version controlled files without confirmation
+(setq vc-follow-symlinks t)
+
+;; enable kill ring to interact with osx clipboard. get pb copy from:
+;; git clone git://gist.github.com/1023272.git gist-1023272
+;; then copy pbcopy to .emacs.d
+(require 'pbcopy)
+(turn-on-pbcopy)
+
+(menu-bar-mode -1)

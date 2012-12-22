@@ -1,5 +1,33 @@
-# Thanks from https://wiki.archlinux.org/index.php/Color_Bash_Prompt
+# TMUX
+#if which tmux 2>&1 >/dev/null; then
+    #if not inside a tmux session, and if no session is started, start a new session
+#    test -z "$TMUX" && (tmux attach || tmux new-session)
+#fi
 
+#############################################
+# Attach tmux to the first detached session 
+#############################################
+
+if [[ -z $TMUX ]]; then
+    TMUX_SESSIONS=`tmux list-sessions -F "#{session_name}ABC#{?session_attached,attached,not_attached}" 2>&1`
+    TMUX_FOUND=0
+    for i in $TMUX_SESSIONS
+    do
+        IS_ATTACHED=`echo $i | awk '{split($0,array,"ABC"); print array[2]}'`
+        if [[ $IS_ATTACHED == "not_attached" ]]; then
+            TMUX_FOUND=1
+            tmux attach -t `echo $i | awk '{split($0,array,"ABC"); print array[1]}'`
+            break
+        fi
+    done
+    
+    if [[ $TMUX_FOUND -eq 0 ]];then
+        tmux new-session
+    fi
+fi
+
+
+# Thanks from https://wiki.archlinux.org/index.php/Color_Bash_Prompt
 txtplain='\033[2m'
 txtend='\033[0m'
 txtblk='\033[0;30m' # Black - Regular
@@ -44,7 +72,8 @@ export RUBYOPT="w"
 
 export ANDROID_HOME=~/coding/android-sdks
 alias aliases="alias -p" #print all aliases
-alias .bash_profile="$EDITOR ~/.bash_profile"
+alias .bashrc="$EDITOR ~/.bashrc"
+alias .tmux="$EDITOR ~/.tmux.conf"
 alias reload_bash="source ~/.bash_profile"
 alias .reload_bash=reload_bash
 alias e=emacs
@@ -132,8 +161,10 @@ if [ -f /usr/local/etc/bash_completion ]; then
   . /usr/local/etc/bash_completion
 fi
 
-bind '"\e[A": history-search-backward'
-bind '"\e[B": history-search-forward'
+bind '"\e[A": history-search-backward' # bind up arrow
+bind '"\e[B": history-search-forward'  # bind down arrow
+bind '"\C-n": history-search-forward'  
+bind '"\C-p": history-search-backward'
 
 PATH="/usr/local/bin:/usr/local/mybin:$PATH"
 PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools

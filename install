@@ -1,0 +1,49 @@
+#!/bin/bash
+
+dir=`pwd`
+
+function cpFile(){
+    ln -s $dir/$file $HOME/$file
+}
+
+existing_files_str=""
+function install(){
+    for file in .*; do
+	      if [[ -e "$HOME/$file" ]]; then
+	          if [[ ! -L "$HOME/$file" ]]; then
+		            if [[ ".emacs.d" == $file ]]; then
+                    echo "- $HOME/$file has contents. Copy whatever files you want and then delete the directory before attempting to install again"
+		            fi
+            else
+                existing_files_str="$file, $existing_files_str"
+            fi
+	      elif [[ $file == ".git" ]]; then
+	          echo -n #do nothing
+        else
+	          cpFile
+	      fi
+    done
+    if [[ $existing_files_str != "" ]]; then
+        echo "- "$existing_files_str"already exist in $HOME and therefore were not copied"
+    fi
+}
+
+function uninstall(){
+    for file in .*; do
+	      if [[ $file != "." ]] && [[ $file != ".." ]]; then
+            if [[ -L "$HOME/$file" ]]; then
+	              rm -rf $HOME/$file
+            fi
+	      fi
+    done
+}
+
+if [[ $1 == "-i" || $1 == "--install" ]]; then
+    install
+elif [[ $1 == "-u" || $1 == "--uninstall" ]]; then
+    uninstall
+elif [[ -z $1 ]]; then
+    echo "No command given"
+else
+    echo "Incorrect command given"
+fi

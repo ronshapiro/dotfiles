@@ -167,6 +167,7 @@
 ;; enable kill ring to interact with osx clipboard. get pb copy from:
 ;; git clone git://gist.github.com/1023272.git gist-1023272
 ;; then copy pbcopy to .emacs.d
+(add-to-list 'load-path "~/.emacs.d/pbcopy/")
 (require 'pbcopy)
 (turn-on-pbcopy)
 

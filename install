@@ -2,11 +2,10 @@
 
 dir=`pwd`
 
-function cpFile(){
-    ln -s $dir/$file $HOME/$file
-}
+installedIndex=0
+notInstalledIndex=0;
+removedIndex=0;
 
-existing_files_str=""
 function install(){
     for file in .*; do
 	      if [[ -e "$HOME/$file" ]]; then
@@ -15,16 +14,32 @@ function install(){
                     echo "- $HOME/$file has contents. Copy whatever files you want and then delete the directory before attempting to install again"
 		            fi
             else
-                existing_files_str="$file, $existing_files_str"
+                notInstalled[$notInstalledIndex]="$file"
+                let "notInstalledIndex += 1"
             fi
 	      elif [[ $file == ".git" ]]; then
 	          echo -n #do nothing
         else
-	          cpFile
+            ln -s $dir/$file $HOME/$file
+            installed[$installedIndex]="$file"
+            let "installedIndex += 1"
 	      fi
     done
-    if [[ $existing_files_str != "" ]]; then
-        echo "- "$existing_files_str"already exist in $HOME and therefore were not copied"
+
+    echo "RESULTS:"
+    if [[ $installedIndex > 0 ]]; then
+        for (( j=0; j < $installedIndex; j++ )); do
+            echo -n ${installed[$j]}
+            if [[ $j+1 -ne $installedIndex ]]; then echo -n ", "; fi
+        done
+        echo " were installed to $HOME"
+    fi
+    if [[ $notInstalledIndex > 0 ]]; then
+        for (( j=0; j < $notInstalledIndex; j++ )); do
+            echo -n ${notInstalled[$j]}
+            if [[ $j+1 -ne $notInstalledIndex ]]; then echo -n ", "; fi
+        done
+        echo " already exist, so they were not installed"
     fi
 }
 
@@ -32,10 +47,21 @@ function uninstall(){
     for file in .*; do
 	      if [[ $file != "." ]] && [[ $file != ".." ]]; then
             if [[ -L "$HOME/$file" ]]; then
+                removed[$removedIndex]="$file"
+                let "removedIndex += 1"
 	              rm -rf $HOME/$file
             fi
 	      fi
     done
+
+    if [[ $removedIndex > 0 ]]; then
+        for (( j=0; j < $removedIndex; j++ )); do
+            echo -n ${removed[$j]}
+            if [[ $j+1 -ne $removedIndex ]]; then echo -n ", "; fi
+        done
+        echo " were removed from $HOME"
+    fi
+
 }
 
 if [[ $1 == "-i" || $1 == "--install" ]]; then

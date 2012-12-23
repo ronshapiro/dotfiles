@@ -172,3 +172,10 @@
 (turn-on-pbcopy)
 
 (menu-bar-mode -1)
+
+;; Matching parens
+(show-paren-mode 1)
+;; Adds closing quote, paren, etc. when first is added
+(load "~/.emacs.d/autopair.el")
+(require 'autopair)
+(autopair-global-mode 1)

@@ -32,6 +32,7 @@ plugins=(brew git gitfast node npm osx pip supervisor)
 
 export EDITOR="emacs"
 alias e="emacs"
+[[ $EMACS = t ]] && unsetopt zle # enable zsh inside eshell
 alias reload_zsh="source ~/.zshrc"
 alias .reload_zsh=reload_zsh
 alias .zshrc="$EDITOR ~/.zshrc"

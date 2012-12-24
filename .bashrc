@@ -63,6 +63,14 @@ bakpur='\033[45m'   # Purple
 bakcyn='\033[46m'   # Cyan
 bakwht='\033[47m'   # White
 
+function shortPrompt(){
+    PROMPT_LENGTH="\W"
+}
+function longPrompt(){
+    PROMPT_LENGTH="\w"
+}
+shortPrompt
+
 #PROMPT_COMMAND tells bash to call format_PS1 every time prompt is requested,
 #which will set PS1
 PROMPT_COMMAND=format_PS1 
@@ -138,7 +146,7 @@ function format_PS1() {
         output=" $output"
     fi
     
-    export PS1="\[${undgrn}\]\w\[\e[m\]$output \$ "
+    export PS1="\[${undgrn}\]$PROMPT_LENGTH\[\e[m\]$output \$ "
 }
 
 alias cdv="cd ~/coding/venmo-android/"
@@ -170,7 +178,6 @@ PATH="/usr/local/bin:/usr/local/mybin:$PATH"
 PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 PATH="$PATH:/usr/local/sbin:/usr/local/mongodb/bin" # if not already present
 PATH="$PATH:/usr/local/mysql/bin"
-export PATH=$PATH
 
 export LESS=-RFX
 export ACKRC=".ackrc" #allow directory specific .ackrc files

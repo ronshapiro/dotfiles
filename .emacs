@@ -22,9 +22,9 @@
 ; the page down one line instead of several
 (setq scroll-step 1) 
 
-(setq temp-directory "~/.emacs_tmps/")
+(setq temp-directory "~/.emacs.d/emacs_tmps/")
 ;;Save all file backups to a special location.
-(setq backup-directory-alist  '((".*" . "~/.emacs_tmps/")))
+(setq backup-directory-alist  '((".*" . "~/.emacs.d/emacs_tmps/")))
 
 ;;Column and line numbers
 (line-number-mode 1)

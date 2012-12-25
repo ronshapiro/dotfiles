@@ -28,7 +28,7 @@ ZSH=$HOME/.oh-my-zsh
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(brew git gitfast node npm osx pip supervisor)
+plugins=(brew git gitfast node npm osx pip ruby supervisor vagrant)
 
 export EDITOR="emacs"
 alias e="emacs"
@@ -36,7 +36,7 @@ alias e="emacs"
 alias reload_zsh="source ~/.zshrc"
 alias .reload_zsh=reload_zsh
 alias .zshrc="$EDITOR ~/.zshrc"
-export ANDROID_HOME=~/coding/android-sdks
+ANDROID_HOME=~/coding/android-sdks
 alias aliases="alias -p" #print all aliases
 alias .tmux="$EDITOR ~/.tmux.conf"
 alias e=emacs
@@ -107,9 +107,15 @@ precmd () {
 
     PROMPT="%U%{$fg_no_bold[green]%}$PROMPT_LENGTH%u %{$reset_color%}%$branch $ "
 }}
-shortPrompt
+
+if [[ -z $PROMPT_LENGTH ]]; then
+    shortPrompt # don't reset to shortPrompt after .zshrc is reloaded
+fi
 
 export PATH="/usr/local/bin:/usr/local/mybin:/usr/local/sbin"
 PATH=$PATH":/usr/local/mongodb/bin:/usr/local/mysql/bin"
 PATH=$PATH":/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin"
 PATH=$PATH":~/coding/android-sdks/tools:~/coding/android-sdks/platform-tools:"
+
+# No correct list
+alias which="nocorrect which"

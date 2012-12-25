@@ -179,3 +179,8 @@
 (load "~/.emacs.d/autopair.el")
 (require 'autopair)
 (autopair-global-mode 1)
+
+(setq whitespace-action '(auto-cleanup)) ;; automatically clean up bad whitespace
+(setq whitespace-style '(trailing space-before-tab indentation empty space-after-tab)) ;; only show bad whitespace
+(add-to-list 'load-path "~/.emacs.d/coffee-mode/")
+(require 'coffee-mode)

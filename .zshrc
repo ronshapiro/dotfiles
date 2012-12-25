@@ -119,3 +119,4 @@ PATH=$PATH":~/coding/android-sdks/tools:~/coding/android-sdks/platform-tools:"
 
 # No correct list
 alias which="nocorrect which"
+alias .dotfiles="cd ~/.dotfiles"

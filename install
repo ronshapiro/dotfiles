@@ -64,12 +64,32 @@ function uninstall(){
 
 }
 
-if [[ $1 == "-i" || $1 == "--install" ]]; then
-    install
-elif [[ $1 == "-u" || $1 == "--uninstall" ]]; then
-    uninstall
-elif [[ -z $1 ]]; then
+function brew_install(){
+    brew_list=`cat brew_list`
+    echo "brew install "$brew_list
+}
+
+function pip_install(){
+    echo "pip install "`cat pip_freeze`
+}
+
+if [[ -z $1 ]]; then
     echo "No command given"
 else
-    echo "Incorrect command given"
+    for arg in $@; do
+        if [[ $arg == "-i" || $arg == "--install" ]]; then
+            echo "install" #install
+        #elif [[ $arg == "-u" || $arg == "--uninstall" ]]; then
+        #    uninstall
+        elif [[ $arg == "-b" || $arg == "--brew" ]]; then
+            brew_install
+        elif [[ $arg == "-p" || $arg == "--pip" ]]; then
+            pip_install
+        else
+            echo "Incorrect command given: $arg"
+        fi
+    done
 fi
+
+
+

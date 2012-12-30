@@ -57,7 +57,10 @@ alias clic="ssh rds2149@clic.cs.columbia.edu"
 alias cunix="ssh rds2149@cunix.cc.columbia.edu"
 alias mcoder="mencoder mf://pngs/*.png -mf fps=50 -ovc lavc -lavcopts vcodec=msmpeg4v2 -oac copy -o recording.avi"
 alias saveToICloud="defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool" # use this alias followed by true/false
-
+alias .dotfiles="cd ~/.dotfiles"
+alias .coding="cd ~/coding/"
+alias gc="git commit"
+alias gcam="git commit -am"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -119,4 +122,3 @@ PATH=$PATH":~/coding/android-sdks/tools:~/coding/android-sdks/platform-tools:"
 
 # No correct list
 alias which="nocorrect which"
-alias .dotfiles="cd ~/.dotfiles"

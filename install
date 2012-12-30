@@ -66,15 +66,26 @@ function uninstall(){
 
 function brew_install(){
     brew_list=`cat brew_list`
-    echo "brew install "$brew_list
+    brew install $brew_list
 }
 
 function pip_install(){
-    echo "pip install "`cat pip_freeze`
+    pip install `cat pip_freeze`
+}
+function npm_install(){
+    npm install -g `cat npm_list`
+}
+
+function updateLists(){
+    brew list > brew_list
+    pip freeze > pip_freeze
+    ls `npm root -g` > npm_list
 }
 
 if [[ -z $1 ]]; then
     echo "No command given"
+elif [[ $1 == "-u" || $1 == "--update" ]]; then
+    updateLists
 else
     for arg in $@; do
         if [[ $arg == "-i" || $arg == "--install" ]]; then
@@ -85,11 +96,10 @@ else
             brew_install
         elif [[ $arg == "-p" || $arg == "--pip" ]]; then
             pip_install
+        elif [[ $arg == "-n" || $arg == "--npm" ]]; then
+            npm_install
         else
             echo "Incorrect command given: $arg"
         fi
     done
 fi
-
-
-

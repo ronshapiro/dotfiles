@@ -122,3 +122,11 @@ PATH=$PATH":~/coding/android-sdks/tools:~/coding/android-sdks/platform-tools:"
 
 # No correct list
 alias which="nocorrect which"
+
+### ZSH Options ###
+# `man zshoptions`
+unsetopt AUTO_PUSHD
+unsetopt AUTO_CD
+setopt ALIASES
+# autoload -Uz zsh-newuser-install
+# zsh-newuser-install -f

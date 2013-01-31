@@ -13,7 +13,10 @@
           (lambda () (setq c-basic-offset 2)))
 (add-hook 'c-mode-hook
           (lambda () (setq c-basic-offset 2)))
-  
+(add-hook 'markdown-mode-hook
+          (lambda () (setq c-basic-offset 2)))
+(setq markdown-indent-offset 2)
+
 ;(global-set-key (kbd "TAB") 'indent-according-to-mode)
 ;(global-set-key (kbd "TAB") 'indent-for-tab-command)
 ;(global-set-key (kbd "C-i") 'indent-relative)
@@ -39,15 +42,19 @@
 (setq-default save-place t)
 (setq save-place-file "~/.emacs.d/saved-places")
 
+
 (require 'fill-column-indicator) ;80 char bar
 ; (setq fci-rule-column 80) isn't working, so i updated the value in
 ; .emacs.d/fill-column-indicator.el from nil to 80
+
 (setq fci-rule-column 80) 
 (setq fci-rule-width 1)
 (setq fci-rule-color "blue")
 
 (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode 1)
+;(setq fci-handle-truncate-lines nil)
+;(setq fci-handle-line-move-visual nil)
 
 ; have comment lines extend all of coloring
 (set-face-foreground 'font-lock-comment-face "Red")
@@ -108,8 +115,6 @@
 (global-set-key (kbd "C-M-a") 'beginning-of-line)
 (global-set-key (kbd "M-_") 'undo)
 (global-set-key (kbd "M-k") (lambda () (interactive) (kill-line 0)))
-
-
 
 (global-set-key (kbd "M-l") 'goto-line) ;;just use M-g M-g
 ;this doesn't actually work as it should
@@ -176,11 +181,20 @@
 ;; Matching parens
 (show-paren-mode 1)
 ;; Adds closing quote, paren, etc. when first is added
-(load "~/.emacs.d/autopair.el")
-(require 'autopair)
-(autopair-global-mode 1)
+
+;;(load "~/.emacs.d/autopair.el")
+;;(require 'autopair)
+;;(autopair-global-mode 1)
 
 (setq whitespace-action '(auto-cleanup)) ;; automatically clean up bad whitespace
 (setq whitespace-style '(trailing space-before-tab indentation empty space-after-tab)) ;; only show bad whitespace
 (add-to-list 'load-path "~/.emacs.d/coffee-mode/")
 (require 'coffee-mode)
+
+(add-to-list 'auto-mode-alist '("[.]ejs$" . html-mode))
+
+(visual-line-mode t)
+(global-visual-line-mode t)
+
+(add-to-list 'load-path "~/.emacs.d/markdown-mode/")
+(setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))

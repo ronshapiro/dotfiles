@@ -28,7 +28,23 @@ ZSH=$HOME/.oh-my-zsh
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(brew git gitfast node npm osx pip ruby supervisor vagrant)
+plugins=(
+    battery
+    brew
+    coffee
+    encode64
+    git
+    gitfast
+    node
+    npm
+    osx
+    pip
+    ruby
+    supervisor
+    vagrant
+)
+
+source $ZSH/oh-my-zsh.sh #is this necessary?
 
 export EDITOR="emacs"
 alias e="emacs"
@@ -46,7 +62,7 @@ alias ls="ls -G"
 alias mkdir="mkdir -p" #create intermediate path for directory
 alias untar="tar -zxvf"
 alias pt="ps -e -o pid,command | grep"
-export LSCOLORS="bx"
+export LSCOLORS="Bx"
 export LESS=-RFX
 export ACKRC=".ackrc" #allow directory specific .ackrc files
 export GREP_OPTIONS='-n --color=always --line-number -H -I -C 1 --exclude=*.pyc -R --exclude-dir=.git'
@@ -61,18 +77,17 @@ alias .dotfiles="cd ~/.dotfiles"
 alias .coding="cd ~/coding/"
 alias gc="git commit"
 alias gcam="git commit -am"
-
-source $ZSH/oh-my-zsh.sh
+alias battery="battery_pct_remaining"
 
 function longPrompt(){
     PROMPT_LENGTH="%~"
-    setPrompt
+    precmd
 }
 function shortPrompt(){
     PROMPT_LENGTH="%1~"
-    setPrompt
+    precmd
 }
-function setPrompt(){
+
 precmd () {
     #git_branch="$(__git_ps1 "%s")"
     branch="$(current_branch)" #branch will be changed but you want to save git_branch for later
@@ -109,7 +124,28 @@ precmd () {
     fi
 
     PROMPT="%U%{$fg_no_bold[green]%}$PROMPT_LENGTH%u %{$reset_color%}%$branch $ "
-}}
+
+    battery=`battery_pct_remaining`
+    if [[ $battery -le 20 ]]; then
+        color="red"
+        if [[ `plugged_in` == "yes" ]]; then
+            color="green"
+        fi
+        if [[ $battery -le 10 ]]; then
+            style="$bg[$color]$fg[black]"
+        else
+            style="$fg[$color]"
+        fi
+        battery="%U%{${style}%}%uBattery: $battery%%%{${reset_color}%} "
+    else
+        battery=""
+    fi
+    RPROMPT=$battery
+
+    # TODO Display the time every 15/30 minutes in RPROMPT as Dark Blue
+    # `date`
+}
+
 
 if [[ -z $PROMPT_LENGTH ]]; then
     shortPrompt # don't reset to shortPrompt after .zshrc is reloaded

@@ -77,6 +77,9 @@
 (global-set-key (kbd "C-x C-r") 'query-replace)
 
 (global-set-key (kbd "RET") 'newline-and-indent) ;return always indents
+;;above line doesn't work for ruby, so this should fix it:
+(add-hook 'ruby-mode-hook (lambda () (local-set-key "\r" 'newline-and-indent)))
+
 (global-set-key (kbd "C-/") 'dabbrev-expand) ;mimic M-/ for simplicity. C-_ is more convenient for undo anyways
 
 ;make manuevering keybindings vim-like.
@@ -192,6 +195,7 @@
 (require 'coffee-mode)
 
 (add-to-list 'auto-mode-alist '("[.]ejs$" . html-mode))
+(add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
 
 (visual-line-mode t)
 (global-visual-line-mode t)

@@ -57,7 +57,7 @@ alias aliases="alias -p" #print all aliases
 alias .tmux="$EDITOR ~/.tmux.conf"
 alias e=emacs
 alias ackl="ack -i --literal"
-alias .emacs="$EDITOR ~/.emacs"
+alias .emacs="$EDITOR ~/.emacs.d/init.el"
 alias ls="ls -G"
 alias mkdir="mkdir -p" #create intermediate path for directory
 alias untar="tar -zxvf"
@@ -155,6 +155,12 @@ export PATH="/usr/local/bin:/usr/local/mybin:/usr/local/sbin"
 PATH=$PATH":/usr/local/mongodb/bin:/usr/local/mysql/bin"
 PATH=$PATH":/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin"
 PATH=$PATH":~/coding/android-sdks/tools:~/coding/android-sdks/platform-tools:"
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+if [[ `which rvm` != "rvm not found" ]]; then
+    source /Users/ronshapiro/.rvm/scripts/rvm
+fi
+
 
 # No correct list
 alias which="nocorrect which"
@@ -166,3 +172,4 @@ unsetopt AUTO_CD
 setopt ALIASES
 # autoload -Uz zsh-newuser-install
 # zsh-newuser-install -f
+

@@ -202,3 +202,8 @@
 
 (add-to-list 'load-path "~/.emacs.d/markdown-mode/")
 (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
+
+;;Org mode (for taking notes)
+(add-to-list 'load-path "~/.emacs.d/org-mode/lisp" t)
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(add-hook 'org-mode-hook 'turn-on-font-lock)

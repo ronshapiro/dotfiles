@@ -35,6 +35,7 @@ libyaml
 little-cms2
 markdown
 maven
+mobile-shell
 mongodb
 mplayer
 node
@@ -42,6 +43,7 @@ openjpeg
 pcre
 pkg-config
 poppler
+protobuf
 pstree
 python
 readline

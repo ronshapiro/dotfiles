@@ -1,7 +1,10 @@
 bower
 coffee-script
 contextify
+express
+memwatch
 npm
 phantomjs
+procjs
 supervisor
 vogue

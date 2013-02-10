@@ -7,4 +7,5 @@ npm
 phantomjs
 procjs
 supervisor
+underscore-cli
 vogue

@@ -57,7 +57,7 @@
 ;(setq fci-handle-line-move-visual nil)
 
 ; have comment lines extend all of coloring
-(set-face-foreground 'font-lock-comment-face "Red")
+(set-face-foreground 'font-lock-comment-face "Cyan")
 (set-variable font-lock-comment-face 'font-lock-comment-face)
 
 ;; Set region background color

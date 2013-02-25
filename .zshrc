@@ -78,6 +78,13 @@ alias .coding="cd ~/coding/"
 alias gc="git commit"
 alias gcam="git commit -am"
 alias battery="battery_pct_remaining"
+alias facetime_kill="sudo killall VDCAssistant"
+
+bindkey '^P' history-beginning-search-backward
+bindkey '^N' history-beginning-search-forward
+bindkey '\e[A' history-beginning-search-backward
+bindkey '\e[B' history-beginning-search-forward
+bindkey '^W' kill-region
 
 function longPrompt(){
     PROMPT_LENGTH="%~"
@@ -88,6 +95,7 @@ function shortPrompt(){
     precmd
 }
 
+BATTERY_BACK_TO_HEALTH="%U%{$fg[blue]%}%uBattery is back to health%{${reset_color}%}"
 precmd () {
     #git_branch="$(__git_ps1 "%s")"
     branch="$(current_branch)" #branch will be changed but you want to save git_branch for later
@@ -136,9 +144,13 @@ precmd () {
         else
             style="$fg[$color]"
         fi
-        battery="%U%{${style}%}%uBattery: $battery%%%{${reset_color}%} "
+        battery="%U%{${style}%}%uBattery: $battery%%%{${reset_color}%}"
     else
-        battery=""
+        if [[ $RPROMPT != "" && $RPROMPT != $BATTERY_BACK_TO_HEALTH ]]; then
+            battery=$BATTERY_BACK_TO_HEALTH
+        else
+            battery=""
+        fi
     fi
     RPROMPT=$battery
 
@@ -161,6 +173,14 @@ if [[ `which rvm` != "rvm not found" ]]; then
     source /Users/ronshapiro/.rvm/scripts/rvm
 fi
 
+function editMacKeyBindings() {
+    if [ ! -d /Library/KeyBindings ]; then
+        mkdir /Library/KeyBindings
+    fi
+    
+    #sudo mate DefaultKeyBinding.dict
+}
+
 
 # No correct list
 alias which="nocorrect which"
@@ -172,4 +192,3 @@ unsetopt AUTO_CD
 setopt ALIASES
 # autoload -Uz zsh-newuser-install
 # zsh-newuser-install -f
-

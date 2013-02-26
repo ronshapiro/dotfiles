@@ -80,6 +80,12 @@ alias gcam="git commit -am"
 alias battery="battery_pct_remaining"
 alias facetime_kill="sudo killall VDCAssistant"
 
+for ending in js java c cpp py rb erb ejs coffee txt html; do
+    alias -s $ending=$EDITOR
+done
+
+#alias -s js 
+
 bindkey '^P' history-beginning-search-backward
 bindkey '^N' history-beginning-search-forward
 bindkey '\e[A' history-beginning-search-backward

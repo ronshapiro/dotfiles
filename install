@@ -18,10 +18,13 @@ function install(){
                 let "notInstalledIndex += 1"
             fi
 	      elif [[ $file == ".git" ]]; then
-	          echo -n #do nothing
+	          garbage="" #do nothing
         else
             ln -s $dir/$file $HOME/$file
             installed[$installedIndex]="$file"
+            if [[ $file == ".lesskey" ]]; then
+                `which lesskey` && `lesskey .lesskey`
+            fi
             let "installedIndex += 1"
 	      fi
     done
@@ -29,17 +32,22 @@ function install(){
     echo "RESULTS:"
     if [[ $installedIndex > 0 ]]; then
         for (( j=0; j < $installedIndex; j++ )); do
-            echo -n ${installed[$j]}
-            if [[ $j+1 -ne $installedIndex ]]; then echo -n ", "; fi
+            results=$results"${installed[$j]}"
+            if [[ $j+1 -ne $installedIndex ]]; then
+                results="$results, "
+            fi
         done
-        echo " were installed to $HOME"
+        echo "$results were installed to $HOME."
     fi
+    results=""
     if [[ $notInstalledIndex > 0 ]]; then
         for (( j=0; j < $notInstalledIndex; j++ )); do
-            echo -n ${notInstalled[$j]}
-            if [[ $j+1 -ne $notInstalledIndex ]]; then echo -n ", "; fi
+            results=$results"${notInstalled[$j]}"
+            if [[ $j+1 -ne $notInstalledIndex ]]; then
+                results="$results, "
+            fi
         done
-        echo " already exist, so they were not installed"
+        echo "$results already exist, so they were not installed."
     fi
 }
 
@@ -89,7 +97,7 @@ elif [[ $1 == "-u" || $1 == "--update" ]]; then
 else
     for arg in $@; do
         if [[ $arg == "-i" || $arg == "--install" ]]; then
-            echo "install" #install
+            install
         #elif [[ $arg == "-u" || $arg == "--uninstall" ]]; then
         #    uninstall
         elif [[ $arg == "-b" || $arg == "--brew" ]]; then

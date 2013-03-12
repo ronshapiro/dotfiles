@@ -65,7 +65,8 @@ alias pt="ps -e -o pid,command | grep"
 export LSCOLORS="Bx"
 export LESS=-RFX
 export ACKRC=".ackrc" #allow directory specific .ackrc files
-export GREP_OPTIONS='-n --color=always --line-number -H -I -C 1 --exclude=*.pyc -R --exclude-dir=.git'
+export GREP_OPTIONS='--color=always --line-number -H -I -C 1 --exclude=*.pyc --exclude-dir=.git'
+alias grepr="grep -R"
 ###How to add ssh without a password:
 #`scp ~/.ssh/id_rsa.pub USER@HOST:~/.ssh/authorized_keys2`
 #you might need to do `chmod 700 ~/.ssh; chmod 640 ~/.ssh/authorized_keys2` too
@@ -79,12 +80,6 @@ alias gc="git commit"
 alias gcam="git commit -am"
 alias battery="battery_pct_remaining"
 alias facetime_kill="sudo killall VDCAssistant"
-
-for ending in js java c cpp py rb erb ejs coffee txt html; do
-    alias -s $ending=$EDITOR
-done
-
-#alias -s js 
 
 bindkey '^P' history-beginning-search-backward
 bindkey '^N' history-beginning-search-forward
@@ -198,3 +193,8 @@ unsetopt AUTO_CD
 setopt ALIASES
 # autoload -Uz zsh-newuser-install
 # zsh-newuser-install -f
+
+### Notes
+# `cd -` sends you back to the previous directory you were in
+# trap finish EXIT # use at the end of a shell script, where finish() is a
+# self defined function to cleanup

@@ -189,8 +189,6 @@
 ;;(require 'autopair)
 ;;(autopair-global-mode 1)
 
-(setq whitespace-action '(auto-cleanup)) ;; automatically clean up bad whitespace
-(setq whitespace-style '(trailing space-before-tab indentation empty space-after-tab)) ;; only show bad whitespace
 (add-to-list 'load-path "~/.emacs.d/coffee-mode/")
 (require 'coffee-mode)
 
@@ -207,3 +205,16 @@
 (add-to-list 'load-path "~/.emacs.d/org-mode/lisp" t)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (add-hook 'org-mode-hook 'turn-on-font-lock)
+
+
+; Syntax highlighting
+(global-font-lock-mode 1)
+
+;(setq inhibit-startup-message t)
+(display-time)
+
+; Easier to remember window manipulating keys
+(global-set-key [f2] 'shrink-window-horizontally)
+(global-set-key [f3] 'shrink-window)
+(global-set-key [f4] 'enlarge-window)
+(global-set-key [f5] 'enlarge-window-horizontally)

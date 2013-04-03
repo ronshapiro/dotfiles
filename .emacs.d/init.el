@@ -77,6 +77,7 @@
 (global-set-key (kbd "C-x C-r") 'query-replace)
 
 (global-set-key (kbd "RET") 'newline-and-indent) ;return always indents
+;(electric-indent-mode +1) ; should be equivalent to binding RET
 ;;above line doesn't work for ruby, so this should fix it:
 (add-hook 'ruby-mode-hook (lambda () (local-set-key "\r" 'newline-and-indent)))
 
@@ -193,6 +194,7 @@
 (require 'coffee-mode)
 
 (add-to-list 'auto-mode-alist '("[.]ejs$" . html-mode))
+(add-to-list 'auto-mode-alist '("[.]ipy$" . python-mode))
 (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
 
 (visual-line-mode t)
@@ -218,3 +220,22 @@
 (global-set-key [f3] 'shrink-window)
 (global-set-key [f4] 'enlarge-window)
 (global-set-key [f5] 'enlarge-window-horizontally)
+
+
+;;; Highlight current line
+(require 'highlight-current-line)
+;(highlight-current-line-on t)
+;(set-face-background 'highlight-current-line-face "cyan")
+
+;(electric-pair-mode +1)
+
+(defun google ()
+  "Google the selected region if any, display a query prompt otherwise."
+  (interactive)
+  (browse-url
+   (concat
+    "http://www.google.com/search?ie=utf-8&oe=utf-8&q="
+    (url-hexify-string (if mark-active
+                           (buffer-substring (region-beginning) (region-end))
+                         (read-string "Google: "))))))
+(global-set-key (kbd "C-c g") 'google)

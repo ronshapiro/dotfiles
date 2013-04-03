@@ -18,6 +18,7 @@ ghostscript
 gifsicle
 git
 glib
+gmp
 graphicsmagick
 imagemagick
 jbig2dec

@@ -80,6 +80,14 @@ alias gc="git commit"
 alias gcam="git commit -am"
 alias battery="battery_pct_remaining"
 alias facetime_kill="sudo killall VDCAssistant"
+alias py=python
+alias ipy=ipython
+
+#convenient aliases for managing multiple jobs
+for (( i=0; i < 10; i++ )); do
+    alias $i="fg %$i"
+done
+
 
 bindkey '^P' history-beginning-search-backward
 bindkey '^N' history-beginning-search-forward

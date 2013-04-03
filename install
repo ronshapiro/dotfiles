@@ -17,8 +17,10 @@ function install(){
                 notInstalled[$notInstalledIndex]="$file"
                 let "notInstalledIndex += 1"
             fi
-	      elif [[ $file == ".git" ]]; then
-	          garbage="" #do nothing
+        elif [[ $file == ".git" ]]; then
+            :
+        elif [[ $file == ".gitignore" ]]; then
+            :
         else
             ln -s $dir/$file $HOME/$file
             installed[$installedIndex]="$file"

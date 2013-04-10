@@ -78,6 +78,9 @@ alias .dotfiles="cd ~/.dotfiles"
 alias .coding="cd ~/coding/"
 alias gc="git commit"
 alias gcam="git commit -am"
+alias gd="git diff"
+alias gdh="git diff HEAD"
+alias gs="git status"
 alias battery="battery_pct_remaining"
 alias facetime_kill="sudo killall VDCAssistant"
 alias py=python
@@ -143,7 +146,9 @@ precmd () {
     PROMPT="%U%{$fg_no_bold[green]%}$PROMPT_LENGTH%u %{$reset_color%}%$branch $ "
 
     battery=`battery_pct_remaining`
-    if [[ $battery -le 20 ]]; then
+    if [[ $battery == "no battery" ]]; then
+        battery=""
+    elif [[ $battery -le 20 ]]; then
         color="red"
         if [[ `plugged_in` == "yes" ]]; then
             color="green"

@@ -173,21 +173,25 @@ if [[ -z $PROMPT_LENGTH ]]; then
 fi
 
 export PATH="/usr/local/bin:/usr/local/mybin:/usr/local/sbin"
+PATH=$PATH":usr/local/share/python"
 PATH=$PATH":/usr/local/mongodb/bin:/usr/local/mysql/bin"
 PATH=$PATH":/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin"
 PATH=$PATH":~/coding/android-sdks/tools:~/coding/android-sdks/platform-tools:"
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
-if [[ `which rvm` != "rvm not found" ]]; then
-    source /Users/ronshapiro/.rvm/scripts/rvm
-fi
+
+function loadrvm(){
+    if [[ `which rvm` != "rvm not found" ]]; then
+        source /Users/ronshapiro/.rvm/scripts/rvm
+    fi
+}
 
 function editMacKeyBindings() {
     if [ ! -d /Library/KeyBindings ]; then
         mkdir /Library/KeyBindings
     fi
     
-    #sudo mate DefaultKeyBinding.dict
+    sudo $EDITOR ~/.mac_keybindings
 }
 
 

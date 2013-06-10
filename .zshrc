@@ -32,7 +32,6 @@ plugins=(
     battery
     brew
     coffee
-    encode64
     git
     gitfast
     node
@@ -42,12 +41,15 @@ plugins=(
     ruby
     supervisor
     vagrant
+#    virtualenvwrapper
 )
 
 source $ZSH/oh-my-zsh.sh #is this necessary?
 
 export EDITOR="emacs"
 alias e="emacs"
+alias ec="emacsclient"
+alias es="emacs --daemon"
 [[ $EMACS = t ]] && unsetopt zle # enable zsh inside eshell
 alias reload_zsh="source ~/.zshrc"
 alias .reload_zsh=reload_zsh
@@ -65,7 +67,7 @@ alias pt="ps -e -o pid,command | grep"
 export LSCOLORS="Bx"
 export LESS=-RFX
 export ACKRC=".ackrc" #allow directory specific .ackrc files
-export GREP_OPTIONS='--color=always --line-number -H -I -C 1 --exclude=*.pyc --exclude-dir=.git'
+export GREP_OPTIONS='-I --exclude=*.pyc --exclude-dir=.git'
 alias grepr="grep -R"
 ###How to add ssh without a password:
 #`scp ~/.ssh/id_rsa.pub USER@HOST:~/.ssh/authorized_keys2`
@@ -77,19 +79,31 @@ alias saveToICloud="defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCl
 alias .dotfiles="cd ~/.dotfiles"
 alias .coding="cd ~/coding/"
 alias gc="git commit"
+alias gca="git commit -a"
 alias gcam="git commit -am"
 alias gd="git diff"
+alias gdc="git diff --cached"
 alias gdh="git diff HEAD"
 alias gs="git status"
+alias gp="git push"
+alias grh="git reset --hard"
+alias gl="git lg"
+alias gpom="git push origin master"
 alias battery="battery_pct_remaining"
 alias facetime_kill="sudo killall VDCAssistant"
 alias py=python
 alias ipy=ipython
+alias json="python -mjson.tool"
 
 #convenient aliases for managing multiple jobs
 for (( i=0; i < 10; i++ )); do
     alias $i="fg %$i"
 done
+
+# virtualenv setup
+#export WORKON_HOME=~/.venvs
+#export PROJECT_HOME=~/.Devel
+#source /usr/local/share/python/virtualenvwrapper.sh
 
 
 bindkey '^P' history-beginning-search-backward
@@ -106,6 +120,13 @@ function shortPrompt(){
     PROMPT_LENGTH="%1~"
     precmd
 }
+
+# until pull request is merged into oh-my-zsh, include the plugged_in function here
+function plugged_in() {
+    [ $(ioreg -rc AppleSmartBattery | grep -c '^.*"ExternalConnected"\ =\ Yes') -eq 1 ]
+}
+
+
 
 BATTERY_BACK_TO_HEALTH="%U%{$fg[blue]%}%uBattery is back to health%{${reset_color}%}"
 precmd () {
@@ -145,12 +166,12 @@ precmd () {
 
     PROMPT="%U%{$fg_no_bold[green]%}$PROMPT_LENGTH%u %{$reset_color%}%$branch $ "
 
-    battery=`battery_pct_remaining`
+    battery=`battery_pct`
     if [[ $battery == "no battery" ]]; then
         battery=""
     elif [[ $battery -le 20 ]]; then
         color="red"
-        if [[ `plugged_in` == "yes" ]]; then
+        if plugged_in ; then
             color="green"
         fi
         if [[ $battery -le 10 ]]; then
@@ -182,12 +203,11 @@ PATH=$PATH":usr/local/share/python"
 PATH=$PATH":/usr/local/mongodb/bin:/usr/local/mysql/bin"
 PATH=$PATH":/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin"
 PATH=$PATH":~/coding/android-sdks/tools:~/coding/android-sdks/platform-tools:"
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
 
 function loadrvm(){
     if [[ `which rvm` != "rvm not found" ]]; then
         source /Users/ronshapiro/.rvm/scripts/rvm
+        PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
     fi
 }
 
@@ -208,10 +228,17 @@ alias which="nocorrect which"
 unsetopt AUTO_PUSHD
 unsetopt AUTO_CD
 setopt ALIASES
+# setopt IGNORE_EOF
 # autoload -Uz zsh-newuser-install
 # zsh-newuser-install -f
+#TRAPEXIT() {
+    #echo $?
+    #zsh
+#}
+
 
 ### Notes
 # `cd -` sends you back to the previous directory you were in
 # trap finish EXIT # use at the end of a shell script, where finish() is a
-# self defined function to cleanup
+  # self defined function to cleanup
+# ab - Apache HTTP server benchmarking tool

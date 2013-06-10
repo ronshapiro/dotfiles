@@ -17,6 +17,7 @@
           (lambda () (setq c-basic-offset 2)))
 (setq markdown-indent-offset 2)
 
+(global-set-key (kbd "C-x C-q") 'save-buffers-kill-emacs)
 ;(global-set-key (kbd "TAB") 'indent-according-to-mode)
 ;(global-set-key (kbd "TAB") 'indent-for-tab-command)
 ;(global-set-key (kbd "C-i") 'indent-relative)
@@ -77,6 +78,8 @@
 (global-set-key (kbd "C-x C-r") 'query-replace)
 
 (global-set-key (kbd "RET") 'newline-and-indent) ;return always indents
+(global-set-key (kbd "C-k") 'kill-line) ;kill the full line, not just the visual line
+
 ;(electric-indent-mode +1) ; should be equivalent to binding RET
 ;;above line doesn't work for ruby, so this should fix it:
 (add-hook 'ruby-mode-hook (lambda () (local-set-key "\r" 'newline-and-indent)))
@@ -115,7 +118,8 @@
   )
 
 (global-set-key (kbd "M-a") 'beginning-of-line-text)
-(global-set-key (kbd "M-e") 'end-of-line-text)
+(global-set-key (kbd "C-e") 'end-of-line)
+(global-set-key (kbd "M-e") 'end-of-line)
 (global-set-key (kbd "C-M-a") 'beginning-of-line)
 (global-set-key (kbd "M-_") 'undo)
 (global-set-key (kbd "M-k") (lambda () (interactive) (kill-line 0)))
@@ -133,19 +137,20 @@
 
 (global-set-key (kbd "M-_") 'redo)
 
-(transient-mark-mode "orange") ;Always use highlight mode for selecting a region
 
 (show-paren-mode 1) ;Show closed paren when near open and vice versa
 
 (setq gtk_selection_bg_color 'orange)
-
-(set-face-foreground 'modeline "orange")
+(transient-mark-mode "yellow") ;Always use highlight mode for selecting a region
+(set-face-foreground 'modeline "yellow")
 (set-face-background 'region "yellow")
+(set-face-foreground 'region "black")
 
 ;Set Ido mode on (autocompletion and other things
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
+(icomplete-mode 1)
 
 (kill-buffer "*scratch*") ;remove *scratch* buffer by default
 
@@ -199,6 +204,8 @@
 (add-to-list 'auto-mode-alist '("[.]ejs$" . html-mode))
 (add-to-list 'auto-mode-alist '("[.]ipy$" . python-mode))
 (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
+(add-to-list 'auto-mode-alist '("[.]zsh$" . sh-mode))
+(add-to-list 'auto-mode-alist '("[.]json$" . js-mode))
 
 (visual-line-mode t)
 (global-visual-line-mode t)
@@ -242,3 +249,14 @@
                            (buffer-substring (region-beginning) (region-end))
                          (read-string "Google: "))))))
 (global-set-key (kbd "C-c g") 'google)
+
+;; import pdb things
+(defun add-py-debug ()
+  "shortcut for adding ipdb in easily"
+  (interactive)
+  (insert "import ipdb; ipdb.set_trace()"))
+
+(eval-after-load 'python
+  '(define-key python-mode-map [?\M-p] 'add-py-debug))
+
+

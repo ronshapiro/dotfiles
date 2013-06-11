@@ -61,3 +61,8 @@
         pushInsteadOf = "git://gist.github.com/"
 [url "git://gist.github.com/"]
         insteadOf = "gist:"
+[user]
+        name = Ron Shapiro
+        email = shapiro.rd@gmail.com
+[credential]
+        helper = osxkeychain

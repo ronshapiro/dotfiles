@@ -95,6 +95,7 @@ alias facetime_kill="sudo killall VDCAssistant"
 alias py=python
 alias ipy=ipython
 alias json="python -mjson.tool"
+alias venmo="cd ~/code/venmo/android"
 
 #convenient aliases for managing multiple jobs
 for (( i=0; i < 10; i++ )); do

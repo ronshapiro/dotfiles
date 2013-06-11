@@ -54,7 +54,7 @@ alias es="emacs --daemon"
 alias reload_zsh="source ~/.zshrc"
 alias .reload_zsh=reload_zsh
 alias .zshrc="$EDITOR ~/.zshrc"
-ANDROID_HOME=~/coding/android-sdks
+ANDROID_HOME=~/code/android-sdks
 alias aliases="alias -p" #print all aliases
 alias .tmux="$EDITOR ~/.tmux.conf"
 alias e=emacs
@@ -77,7 +77,7 @@ alias cunix="ssh rds2149@cunix.cc.columbia.edu"
 alias mcoder="mencoder mf://pngs/*.png -mf fps=50 -ovc lavc -lavcopts vcodec=msmpeg4v2 -oac copy -o recording.avi"
 alias saveToICloud="defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool" # use this alias followed by true/false
 alias .dotfiles="cd ~/.dotfiles"
-alias .coding="cd ~/coding/"
+alias .code="cd ~/code/"
 alias gc="git commit"
 alias gca="git commit -a"
 alias gcam="git commit -am"
@@ -202,7 +202,7 @@ export PATH="/usr/local/bin:/usr/local/mybin:/usr/local/sbin"
 PATH=$PATH":usr/local/share/python"
 PATH=$PATH":/usr/local/mongodb/bin:/usr/local/mysql/bin"
 PATH=$PATH":/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin"
-PATH=$PATH":~/coding/android-sdks/tools:~/coding/android-sdks/platform-tools:"
+PATH=$PATH":~/code/android-sdks/tools:~/code/android-sdks/platform-tools:"
 
 function loadrvm(){
     if [[ `which rvm` != "rvm not found" ]]; then

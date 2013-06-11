@@ -54,7 +54,7 @@ alias es="emacs --daemon"
 alias reload_zsh="source ~/.zshrc"
 alias .reload_zsh=reload_zsh
 alias .zshrc="$EDITOR ~/.zshrc"
-ANDROID_HOME=~/code/android-sdks
+ANDROID_HOME=~/code/android-sdk
 alias aliases="alias -p" #print all aliases
 alias .tmux="$EDITOR ~/.tmux.conf"
 alias e=emacs
@@ -84,6 +84,7 @@ alias gcam="git commit -am"
 alias gd="git diff"
 alias gdc="git diff --cached"
 alias gdh="git diff HEAD"
+alias gds="git diff --staged"
 alias gs="git status"
 alias gp="git push"
 alias grh="git reset --hard"
@@ -202,7 +203,7 @@ export PATH="/usr/local/bin:/usr/local/mybin:/usr/local/sbin"
 PATH=$PATH":usr/local/share/python"
 PATH=$PATH":/usr/local/mongodb/bin:/usr/local/mysql/bin"
 PATH=$PATH":/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin"
-PATH=$PATH":~/code/android-sdks/tools:~/code/android-sdks/platform-tools:"
+PATH=$PATH":$HOME/code/android-sdk/platform-tools:$HOME/code/android-sdk/tools"
 
 function loadrvm(){
     if [[ `which rvm` != "rvm not found" ]]; then

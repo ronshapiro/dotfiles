@@ -143,8 +143,8 @@
 (setq gtk_selection_bg_color 'orange)
 (transient-mark-mode "yellow") ;Always use highlight mode for selecting a region
 
-; FIX
-;;;;;;;(set-face-foreground 'modeline "yellow")
+(set-face-foreground 'mode-line "yellow")
+
 
 (set-face-background 'region "yellow")
 (set-face-foreground 'region "black")

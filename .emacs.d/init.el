@@ -210,8 +210,8 @@
 (add-to-list 'auto-mode-alist '("[.]zsh$" . sh-mode))
 (add-to-list 'auto-mode-alist '("[.]json$" . js-mode))
 
-(visual-line-mode t)
-(global-visual-line-mode t)
+;(visual-line-mode t)
+;(global-visual-line-mode t)
 
 (add-to-list 'load-path "~/.emacs.d/markdown-mode/")
 (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))

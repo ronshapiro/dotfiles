@@ -96,6 +96,7 @@ alias py=python
 alias ipy=ipython
 alias json="python -mjson.tool"
 alias venmo="cd ~/code/venmo/android"
+alias alog="adb logcat | ack"
 
 #convenient aliases for managing multiple jobs
 for (( i=0; i < 10; i++ )); do
@@ -214,11 +215,17 @@ function loadrvm(){
 }
 
 function editMacKeyBindings() {
-    if [ ! -d /Library/KeyBindings ]; then
-        mkdir /Library/KeyBindings
+    dir=~/Library/KeyBindings
+    if [ ! -d $dir ]; then
+        mkdir $dir
     fi
-    
-    sudo $EDITOR ~/.mac_keybindings
+
+    file=$dir/DefaultKeyBinding.dict
+    if [ ! -f $file ]; then
+        sudo touch $file
+    fi
+    sudo $EDITOR $file
+    #sudo $EDITOR ~/.mac_keybindings
 }
 
 

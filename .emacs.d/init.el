@@ -16,6 +16,7 @@
 (add-hook 'markdown-mode-hook
           (lambda () (setq c-basic-offset 2)))
 (setq markdown-indent-offset 2)
+(setq python-indent-offset 4)
 
 (global-set-key (kbd "C-x C-q") 'save-buffers-kill-emacs)
 ;(global-set-key (kbd "TAB") 'indent-according-to-mode)
@@ -43,19 +44,11 @@
 (setq-default save-place t)
 (setq save-place-file "~/.emacs.d/saved-places")
 
+(require 'whitespace)
+(setq whitespace-line-column 80) ;; limit line length
+(setq whitespace-style '(face lines-tail))
 
-(require 'fill-column-indicator) ;80 char bar
-; (setq fci-rule-column 80) isn't working, so i updated the value in
-; .emacs.d/fill-column-indicator.el from nil to 80
-
-(setq fci-rule-column 80) 
-(setq fci-rule-width 1)
-(setq fci-rule-color "blue")
-
-(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
-(global-fci-mode 1)
-;(setq fci-handle-truncate-lines nil)
-;(setq fci-handle-line-move-visual nil)
+(add-hook 'prog-mode-hook 'whitespace-mode)
 
 ; have comment lines extend all of coloring
 (set-face-foreground 'font-lock-comment-face "Cyan")
@@ -125,26 +118,11 @@
 (global-set-key (kbd "M-k") (lambda () (interactive) (kill-line 0)))
 
 (global-set-key (kbd "M-l") 'goto-line) ;;just use M-g M-g
-;this doesn't actually work as it should
-(defun redo ()
-    (interactive)
-    (forward-char)
-    (undo)
-    (backward-char)
-      ;;; place your code below this line, but inside the bracket.
-      )
-
-
-(global-set-key (kbd "M-_") 'redo)
-
-
-(show-paren-mode 1) ;Show closed paren when near open and vice versa
 
 (setq gtk_selection_bg_color 'orange)
 (transient-mark-mode "yellow") ;Always use highlight mode for selecting a region
 
 (set-face-foreground 'mode-line "yellow")
-
 
 (set-face-background 'region "yellow")
 (set-face-foreground 'region "black")
@@ -170,13 +148,6 @@
   (defun track-mouse (e))
   (setq mouse-sel-mode t)
   )
-
-;; mouse support in osx terminal
-(require 'mouse)
-(xterm-mouse-mode t)
-(defun track-mouse (e))
-(setq mouse-sel-mode t)
-
 
 ;; follow symlinks to version controlled files without confirmation
 (setq vc-follow-symlinks t)
@@ -207,6 +178,8 @@
 (add-to-list 'auto-mode-alist '("[.]ejs$" . html-mode))
 (add-to-list 'auto-mode-alist '("[.]ipy$" . python-mode))
 (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Vagrantfile" . ruby-mode))
+(add-to-list 'auto-mode-alist '("[.]pp$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("[.]zsh$" . sh-mode))
 (add-to-list 'auto-mode-alist '("[.]json$" . js-mode))
 
@@ -241,17 +214,6 @@
 ;(set-face-background 'highlight-current-line-face "cyan")
 
 ;(electric-pair-mode +1)
-
-(defun google ()
-  "Google the selected region if any, display a query prompt otherwise."
-  (interactive)
-  (browse-url
-   (concat
-    "http://www.google.com/search?ie=utf-8&oe=utf-8&q="
-    (url-hexify-string (if mark-active
-                           (buffer-substring (region-beginning) (region-end))
-                         (read-string "Google: "))))))
-(global-set-key (kbd "C-c g") 'google)
 
 ;; import pdb things
 (defun add-py-debug ()

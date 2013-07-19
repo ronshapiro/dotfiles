@@ -41,7 +41,8 @@ plugins=(
     ruby
     supervisor
     vagrant
-#    virtualenvwrapper
+    virtualenv
+    virtualenvwrapper
 )
 
 source $ZSH/oh-my-zsh.sh #is this necessary?
@@ -50,6 +51,8 @@ export EDITOR="emacs"
 alias e="emacs"
 alias ec="emacsclient"
 alias es="emacs --daemon"
+alias v="vim"
+alias .vimrc="vim ~/.vimrc"
 [[ $EMACS = t ]] && unsetopt zle # enable zsh inside eshell
 alias reload_zsh="source ~/.zshrc"
 alias .reload_zsh=reload_zsh
@@ -57,7 +60,6 @@ alias .zshrc="$EDITOR ~/.zshrc"
 ANDROID_HOME=~/code/android-sdk
 alias aliases="alias -p" #print all aliases
 alias .tmux="$EDITOR ~/.tmux.conf"
-alias e=emacs
 alias ackl="ack -i --literal"
 alias .emacs="$EDITOR ~/.emacs.d/init.el"
 alias ls="ls -G"
@@ -65,39 +67,80 @@ alias mkdir="mkdir -p" #create intermediate path for directory
 alias untar="tar -zxvf"
 alias pt="ps -e -o pid,command | grep"
 export LSCOLORS="Bx"
-export LESS=-RFX
+export LESS="-X --quit-if-one-screen --ignore-case --RAW-CONTROL-CHARS"
 export ACKRC=".ackrc" #allow directory specific .ackrc files
 export GREP_OPTIONS='-I --exclude=*.pyc --exclude-dir=.git'
 alias grepr="grep -R"
 ###How to add ssh without a password:
 #`scp ~/.ssh/id_rsa.pub USER@HOST:~/.ssh/authorized_keys2`
 #you might need to do `chmod 700 ~/.ssh; chmod 640 ~/.ssh/authorized_keys2` too
-alias clic="ssh rds2149@clic.cs.columbia.edu"
-alias cunix="ssh rds2149@cunix.cc.columbia.edu"
 alias mcoder="mencoder mf://pngs/*.png -mf fps=50 -ovc lavc -lavcopts vcodec=msmpeg4v2 -oac copy -o recording.avi"
 alias saveToICloud="defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool" # use this alias followed by true/false
+ffind () {
+    dir="."
+    regexp="$1"
+    if (( $# == 2 )); then
+        dir="$1"
+        regexp="$2"
+    fi
+    find $dir | grep --color $regexp
+}
 alias .dotfiles="cd ~/.dotfiles"
 alias .code="cd ~/code/"
 alias gc="git commit"
 alias gca="git commit -a"
-alias gg="git grep"
+alias gg="git grep --ignore-case"
 alias gcam="git commit -am"
 alias gd="git diff"
 alias gdc="git diff --cached"
 alias gdh="git diff HEAD"
 alias gds="git diff --staged"
 alias gs="git status"
+alias gsl="git stash list"
+alias gss="git stash save"
+alias gb="git branch"
+alias gbl="git blame"
+alias gblr="git blame --reverse"
+gsa () {
+    if (( $# == 0 )); then
+        git stash apply
+    else
+        git stash apply stash@{$1}
+    fi
+}
+unalias gsd
+gsd () {
+    if (( $# == 0 )); then
+        git stash drop
+    else
+        git stash drop stash@{$1}
+    fi
+}
 alias gp="git push"
 alias grh="git reset --hard"
 alias gl="git lg"
-alias gpom="git push origin master"
+#alias gpom="git push origin master"
+alias gpo="git push origin"
 alias battery="battery_pct_remaining"
 alias facetime_kill="sudo killall VDCAssistant"
 alias py=python
 alias ipy=ipython
 alias json="python -mjson.tool"
-alias venmo="cd ~/code/venmo/android"
-alias alog="adb logcat | ack"
+alias nocolor="sed \"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g\""
+#alias alog="adb logcat | ack"
+alog () {
+    if (( $# == 0 )); then
+        adb logcat -v time
+    elif [[ $1 == "runtime" ]]; then
+        local pattern='E/AndroidRuntime' # |V/Crash
+        # mac osx sed does not have unbuffered sed
+        #adb logcat | ack "E/AndroidRuntime" | sed -u "s/E\/AndroidRuntime([0-9]*)://"
+        #adb logcat | ack "$pattern" | gawk -F':' '{print $2":"$3}'
+        adb logcat -v time | ack --ignore-case $pattern
+    else
+        adb logcat -v time | ack --ignore-case $@
+    fi
+}
 
 #convenient aliases for managing multiple jobs
 for (( i=0; i < 10; i++ )); do
@@ -105,9 +148,12 @@ for (( i=0; i < 10; i++ )); do
 done
 
 # virtualenv setup
-#export WORKON_HOME=~/.venvs
+export WORKON_HOME=~/.venvs
+VIRTUALENV_HOME=/usr/local/bin/virtualenvwrapper.sh
+if [ ! -f  ]; then
+    source $VIRTUALENV_HOME
+fi
 #export PROJECT_HOME=~/.Devel
-#source /usr/local/share/python/virtualenvwrapper.sh
 
 
 bindkey '^P' history-beginning-search-backward
@@ -168,7 +214,12 @@ precmd () {
         branch=" %{$fg_no_bold[$color]%}$branch%{$reset_color%}% "
     fi
 
-    PROMPT="%U%{$fg_no_bold[green]%}$PROMPT_LENGTH%u %{$reset_color%}%$branch $ "
+    VENV=""
+    if [[ $VIRTUAL_ENV != "" ]]; then
+        VENV="%{$fg_no_bold[blue]%}(`basename $VIRTUAL_ENV`) "
+    fi
+
+    PROMPT="$VENV%U%{$fg_no_bold[green]%}$PROMPT_LENGTH%u %{$reset_color%}%$branch $ "
 
     battery=`battery_pct`
     if [[ $battery == "no battery" ]]; then
@@ -207,6 +258,7 @@ PATH=$PATH":usr/local/share/python"
 PATH=$PATH":/usr/local/mongodb/bin:/usr/local/mysql/bin"
 PATH=$PATH":/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin"
 PATH=$PATH":$HOME/code/android-sdk/platform-tools:$HOME/code/android-sdk/tools"
+PATH=$PATH":$HOME/.rvm"
 
 function loadrvm(){
     if [[ `which rvm` != "rvm not found" ]]; then
@@ -232,6 +284,7 @@ function editMacKeyBindings() {
 
 # No correct list
 alias which="nocorrect which"
+alias ffind="nocorrect ffind"
 
 ### ZSH Options ###
 # `man zshoptions`
@@ -252,3 +305,5 @@ setopt ALIASES
 # trap finish EXIT # use at the end of a shell script, where finish() is a
   # self defined function to cleanup
 # ab - Apache HTTP server benchmarking tool
+
+source ~/.venmorc

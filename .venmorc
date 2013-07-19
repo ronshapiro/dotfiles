@@ -1,0 +1,7 @@
+#!/bin/sh
+export VGIT_USERNAME=ronshapiro
+alias vm="cd ~/code/venmo/devops && vagrant ssh"
+alias vandroid="cd ~/code/venmo/android"
+alias webviews="cd ~/code/venmo/devops/platform/api/static/js/app"
+alias devops="cd ~/code/venmo/devops"
+

@@ -66,3 +66,5 @@
         email = shapiro.rd@gmail.com
 [credential]
         helper = osxkeychain
+[push]
+        default = current

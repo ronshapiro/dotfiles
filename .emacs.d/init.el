@@ -1,18 +1,51 @@
 (add-to-list 'load-path "~/.emacs.d/")
 
-(setq c-basic-offset 2)
+(defun numtrue (list)
+  (if (null list)
+      0 (+ (if (not (null (car list))) 1 0)
+           (numtrue (cdr list)))))
+
+(require 'package)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+
+(defvar packages '(clojure-mode
+                   mo-git-blame
+                   nrepl))
+
+(autoload 'mo-git-blame-file "mo-git-blame" nil t)
+(autoload 'mo-git-blame-current "mo-git-blame" nil t)
+
+(defun installpackages ()
+  (interactive)
+  (package-refresh-contents)
+  (dolist (package packages)
+    (when (not (package-installed-p package))
+      (package-install package)))
+)
+
+;(unless (= (length packages) (numtrue (mapcar 'package-installed-p packages)))
+;    (progn
+;      (package-refresh-contents)
+;      (dolist (package packages)
+;        (when (not (package-installed-p package))
+;          (package-install package)))
+;      ))
+
+(setq c-basic-offset 4)
 ;(setq standard-indent 2)
 ;(setq default-tab-width 2)
-(setq-default tab-width 2)
+(setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 ;(setq indent-line-function 'insert-tab)
 (setq js-indent-level 2)
-(setq java-indent-level 2)
-(setq java-indent-offset 2)
+(setq java-indent-level 4)
+(setq java-indent-offset 4)
 (add-hook 'java-mode-hook
-          (lambda () (setq c-basic-offset 2)))
+          (lambda () (setq c-basic-offset 4)))
 (add-hook 'c-mode-hook
-          (lambda () (setq c-basic-offset 2)))
+          (lambda () (setq c-basic-offset 4)))
 (add-hook 'markdown-mode-hook
           (lambda () (setq c-basic-offset 2)))
 (setq markdown-indent-offset 2)
@@ -133,7 +166,7 @@
 (ido-mode 1)
 (icomplete-mode 1)
 
-(kill-buffer "*scratch*") ;remove *scratch* buffer by default
+;(kill-buffer "*scratch*") ;remove *scratch* buffer by default
 
 ;; Enable mouse support in terminal
 (unless window-system
@@ -224,4 +257,5 @@
 (eval-after-load 'python
   '(define-key python-mode-map [?\M-p] 'add-py-debug))
 
-
+(add-to-list 'load-path "~/.emacs.d/scala-mode2/")
+(require 'scala-mode2)

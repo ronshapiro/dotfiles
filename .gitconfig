@@ -48,6 +48,8 @@
         merge = refs/heads/master
 [grep]
         lineNumber = true
+[blame]
+        date = relative
 # URL shorthands
 [url "git@github.com:"]
         insteadOf = "gh:"
@@ -67,4 +69,4 @@
 [credential]
         helper = osxkeychain
 [push]
-        default = current
+	default = current

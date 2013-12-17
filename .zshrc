@@ -32,8 +32,12 @@ plugins=(
     battery
     brew
     coffee
+    # colored-man
     git
     gitfast
+    gradle
+    heroku
+    mvn
     node
     npm
     osx
@@ -46,18 +50,23 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh #is this necessary?
-
 export EDITOR="emacs"
 alias e="emacs"
 alias ec="emacsclient"
 alias es="emacs --daemon"
+ef(){
+    emacs `ffind $@`
+}
+alias efs="ef src"
 alias v="vim"
 alias .vimrc="vim ~/.vimrc"
 [[ $EMACS = t ]] && unsetopt zle # enable zsh inside eshell
 alias reload_zsh="source ~/.zshrc"
 alias .reload_zsh=reload_zsh
 alias .zshrc="$EDITOR ~/.zshrc"
-ANDROID_HOME=~/code/android-sdk
+# export ANDROID_HOME=~/code/android-sdk
+export ANDROID_HOME="/usr/local/opt/android-sdk"
+source $HOME/.dotfiles/android-aliases/android-aliases.sh
 alias aliases="alias -p" #print all aliases
 alias .tmux="$EDITOR ~/.tmux.conf"
 alias ackl="ack -i --literal"
@@ -89,7 +98,7 @@ alias .dotfiles="cd ~/.dotfiles"
 alias .code="cd ~/code/"
 alias gc="git commit"
 alias gca="git commit -a"
-alias gg="git grep --ignore-case"
+alias gg="git grep --ignore-case" #make sure to do this within home git dir
 alias gcam="git commit -am"
 alias gd="git diff"
 alias gdc="git diff --cached"
@@ -98,9 +107,6 @@ alias gds="git diff --staged"
 alias gs="git status"
 alias gsl="git stash list"
 alias gss="git stash save"
-alias gb="git branch"
-alias gbl="git blame"
-alias gblr="git blame --reverse"
 gsa () {
     if (( $# == 0 )); then
         git stash apply
@@ -116,6 +122,27 @@ gsd () {
         git stash drop stash@{$1}
     fi
 }
+gsfirst(){
+    git stash apply `gsl | head -n 1 | awk -F':' '{print $1}'`
+}
+gslast(){
+    git stash apply `gsl | tail -n 1 | awk -F':' '{print $1}'`
+}
+alias gb="git branch"
+alias gbl="git blame"
+alias gblr="git blame --reverse"
+fblame() {
+    local dir=""
+    local file=$1
+    if (( $# > 1 )); then
+        dir=$1
+        file=$2
+    elif [[ -e "src" ]]; then
+        dir="src"
+    fi
+        
+    git blame `ffind $dir $file | sed -n 1p`
+}
 alias gp="git push"
 alias grh="git reset --hard"
 alias gl="git lg"
@@ -127,25 +154,16 @@ alias py=python
 alias ipy=ipython
 alias json="python -mjson.tool"
 alias nocolor="sed \"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g\""
-#alias alog="adb logcat | ack"
-alog () {
-    if (( $# == 0 )); then
-        adb logcat -v time
-    elif [[ $1 == "runtime" ]]; then
-        local pattern='E/AndroidRuntime' # |V/Crash
-        # mac osx sed does not have unbuffered sed
-        #adb logcat | ack "E/AndroidRuntime" | sed -u "s/E\/AndroidRuntime([0-9]*)://"
-        #adb logcat | ack "$pattern" | gawk -F':' '{print $2":"$3}'
-        adb logcat -v time | ack --ignore-case $pattern
-    else
-        adb logcat -v time | ack --ignore-case $@
-    fi
-}
-
+alias optimizepngs="open -a ImageOptim *.png"
 #convenient aliases for managing multiple jobs
 for (( i=0; i < 10; i++ )); do
     alias $i="fg %$i"
 done
+
+export CLOJURE_JAR=`ffind /usr/local/Cellar/clojure/ clojure | grep .jar | tail -n 1`
+alias clojure="java -cp $CLOJURE_JAR clojure.main"
+
+export JAVA_HOME=$(/usr/libexec/java_home)
 
 # virtualenv setup
 export WORKON_HOME=~/.venvs
@@ -154,7 +172,6 @@ if [ ! -f  ]; then
     source $VIRTUALENV_HOME
 fi
 #export PROJECT_HOME=~/.Devel
-
 
 bindkey '^P' history-beginning-search-backward
 bindkey '^N' history-beginning-search-forward
@@ -193,6 +210,11 @@ precmd () {
         # unset with `git config --local --unset branch.BRANCHNAME.editwarning
         branch_warning="branch.$(current_branch).editwarning=true"
         hide="$(git config -l)"
+
+        if [[ $git_status =~ "All conflicts fixed but you are still merging." ]] || \
+            [[ $git_status =~ "You have unmerged paths." ]]; then
+            branch="[in merge] $branch"
+        fi
         
         if [[ $hide =~ $branch_warning ]]; then
             branch="%{$bg[red]%} -- ${branch} -- %{$reset_color%}"
@@ -201,6 +223,8 @@ precmd () {
         fi
         
         if [[ $git_status =~ "Untracked files" ]]; then
+            color="yellow"
+        elif [[ $git_status =~ "You have unmerged paths." ]]; then
             color="yellow"
         elif [[ $git_status =~ "Changes not staged for commit" ]]; then
             color="yellow"
@@ -254,18 +278,16 @@ if [[ -z $PROMPT_LENGTH ]]; then
 fi
 
 export PATH="/usr/local/bin:/usr/local/mybin:/usr/local/sbin"
+PATH=$PATH":/usr/local/share/npm/bin/"
 PATH=$PATH":usr/local/share/python"
 PATH=$PATH":/usr/local/mongodb/bin:/usr/local/mysql/bin"
 PATH=$PATH":/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/texbin"
-PATH=$PATH":$HOME/code/android-sdk/platform-tools:$HOME/code/android-sdk/tools"
+PATH=$PATH":$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools"
 PATH=$PATH":$HOME/.rvm"
 
-function loadrvm(){
-    if [[ `which rvm` != "rvm not found" ]]; then
-        source /Users/ronshapiro/.rvm/scripts/rvm
-        PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-    fi
-}
+if [[ -e "$HOME/.rvm" ]]; then
+    PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+fi
 
 function editMacKeyBindings() {
     dir=~/Library/KeyBindings
@@ -307,3 +329,51 @@ setopt ALIASES
 # ab - Apache HTTP server benchmarking tool
 
 source ~/.venmorc
+
+killadobe() {
+    # pkill -9 -f apache # kills processes named apache # http://www.quora.com/Linux/What-are-some-time-saving-tips-that-every-Linux-user-should-know/answer/Christian-Nygaard?__snids__=195709448&__nsrc__=2
+    grepped=`ps ax | grep Adobe | awk '{print $1}'`
+    processes=$(( `echo $grepped | wc -l` - 1 ))
+
+    if (( $processes > 0 )); then
+        kill `echo $grepped | head -n $processes`
+    fi
+}
+
+# shortcut for copying files: cp foo{,.old} # cp foo{.old,} # http://www.pgrs.net/2007/9/6/useful-unix-tricks/
+# Pressing alt+. will put in the previous command's last argument $ http://www.pgrs.net/2011/08/16/useful-unix-tricks-part-4/
+
+# http://www.fizerkhan.com/blog/posts/What-I-learned-from-other-s-shell-scripts.html
+NORMAL=$(tput sgr0)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+WHITE=$(tput setaf 7)
+GREEN_BOLD=$(tput setaf 2; tput bold)
+
+function red() { echo -e "$RED$*$NORMAL" }
+function green() { echo -e "$GREEN$*$NORMAL" }
+function yellow() { echo -e "$YELLOW$*$NORMAL" }
+function blue() { echo -e "$BLUE$*$NORMAL" }
+function magenta() { echo -e "$MAGENTA$*$NORMAL" }
+function cyan() { echo -e "$CYAN$*$NORMAL" }
+function white() { echo -e "$WHITE$*$NORMAL" }
+
+function require_curl() { which "curl" &>/dev/null; }
+# SOMEVAR=${SOMEVAR:-http://localhost:8080} #Sometime, we want to use default value if user does not set the value.
+# The ${#VARIABLE_NAME} gives the length of the value of the variable.
+# To find base directory
+# APP_ROOT=`dirname "$0"`
+# To find the file name
+# filename=`basename "$filepath"`
+# To find the file name without extension
+# filename=`basename "$filepath" .html`
+
+export ANT_ARGS='-logger org.apache.tools.ant.listener.AnsiColorLogger'
+
+export EC2_HOME="/usr/local/etc/ec2-api-tools-1.6.12.0"
+export PATH=$PATH:$EC2_HOME/bin 
+# source ~/.aws_profile

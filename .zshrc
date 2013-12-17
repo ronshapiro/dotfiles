@@ -58,6 +58,7 @@ ef(){
     emacs `ffind $@`
 }
 alias efs="ef src"
+alias epoch="date +%s"
 alias v="vim"
 alias .vimrc="vim ~/.vimrc"
 [[ $EMACS = t ]] && unsetopt zle # enable zsh inside eshell

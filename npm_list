@@ -1,4 +1,5 @@
 bower
+coffee
 coffee-script
 contextify
 express

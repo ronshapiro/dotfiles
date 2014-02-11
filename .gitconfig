@@ -1,7 +1,7 @@
 [include]
         path = ~/.gitconfig.local
 [color]
-        ui = always
+        #ui = always
 [color "diff"]
        #meta = yellow 
        #frag = magenta bold
@@ -13,6 +13,13 @@
         match = yellow reverse
         context = cyan
         #selected = white bold
+[color "decorate"]
+       parenthesis = blue
+       branch = yellow
+       remoteBranch = yellow
+       tag = yellow
+       stash = green
+       HEAD = magenta bold
 [alias]
         co = checkout
         current-branch = !git symbolic-ref HEAD|sed -e 's/refs.heads.//'
@@ -22,8 +29,9 @@
         dw = diff --color-words
         idff = diff       
         dwc = diff -w -M --color-words
-        lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+        lg = log --pretty=format:'%C(blue)%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative
         ll = log -p
+        ls = log --pretty=format:'%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]' --decorate --date=short --numstat
         rb = rebase
         ggrep = grep --heading --break
         fix = rebase -i origin/master
@@ -37,6 +45,8 @@
         tree = log --graph --decorate --pretty=oneline --abbrev-commit --all
         undopush = push -f origin HEAD^:master
         up = pull --rebase
+        grepall = !git rev-list --all | xargs git grep
+        true-blame = blame -wMC # ignores whitespace, moved lines in the same file, and moved lines across files
 [core]
         editor = emacs
         excludesfile = /Users/ronshapiro/.gitignore
@@ -70,3 +80,5 @@
         helper = osxkeychain
 [push]
 	default = current
+[diff]
+	renameLimit = 10000

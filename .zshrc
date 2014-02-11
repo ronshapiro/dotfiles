@@ -36,8 +36,9 @@ plugins=(
     git
     gitfast
     gradle
+    # grails
     heroku
-    mvn
+    # mvn
     node
     npm
     osx
@@ -244,7 +245,7 @@ precmd () {
         VENV="%{$fg_no_bold[blue]%}(`basename $VIRTUAL_ENV`) "
     fi
 
-    PROMPT="$VENV%U%{$fg_no_bold[green]%}$PROMPT_LENGTH%u %{$reset_color%}%$branch $ "
+    PROMPT="$VENV%U%{$fg_no_bold[green]%}$PROMPT_LENGTH%u %{$reset_color%}%$branch %{$fg_no_bold[cyan]%}$%{$reset_color%} "
 
     battery=`battery_pct`
     if [[ $battery == "no battery" ]]; then

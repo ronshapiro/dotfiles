@@ -76,6 +76,8 @@ function uninstall(){
 
 function brew_install(){
     brew_list=`cat brew_list`
+    brew_taps=`cat brew_taps`
+    brew tap $brew_taps
     brew install $brew_list
 }
 
@@ -87,6 +89,7 @@ function npm_install(){
 }
 
 function updateLists(){
+    brew tap > brew_taps
     brew list > brew_list
     pip freeze > pip_freeze
     ls `npm root -g` > npm_list

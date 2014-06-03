@@ -58,7 +58,6 @@ set tags=./tags;
 set grepprg=ack
 "set list
 
-let jslint_command_options = '-conf ~/Dropbox/nix/bin/jsl.conf -nofilelisting -nocontext -nosummary -nologo -process'
 "set equalalways " Multiple windows, when created, are equal in size
 "set splitbelow splitright"
 
@@ -143,60 +142,6 @@ nmap ,cit dt<cT>
 
 ""==end varun
 
-
-
-autocmd winenter * setlocal cursorline
-autocmd winleave * setlocal nocursorline
-autocmd bufread,bufnewfile,bufdelete * :syntax on
-
-let g:minibufexplmapwindownavvim = 1
-let g:minibufexplmapwindownavarrows = 1
-let g:minibufexplmapctabswitchbufs = 1
-let g:miniBufExplModSelTarget = 1
-
-let g:pyflakes_use_quickfix = 0
-
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType python setlocal list
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-
-autocmd FileType python set ft=python.django " For SnipMate
-autocmd FileType html set ft=html.django_template " For SnipMate
-
-au BufRead,BufNewFile {Capfile,Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru,.caprc,.irbrc,irb_tempfile*} set ft=ruby
-
-" fix backspace in vim 7
-:set backspace=indent,eol,start
-"nmap <buffer> <CR> gf
-"nmap <buffer> <C-S-y> <Esc>yy<Esc>:bd<CR>:edit @"<CR>
-
-" popout split buffer hack
-" map <C-S-p>  <Esc>:hide<CR>:blast<CR>
-
-" ctrl-p paste
-imap <C-l> <C-r>"
-
-" duplicate line"
-" imap <C-D> <Esc>yyp
-" nmap <C-D> <Esc>yyp
-
-nmap ,bs :ConqueTermSplit bash<CR>
-nmap ,bv :ConqueTermVSplit bash<CR>
-
-" copy all to clipboard
-nmap ,a ggVG"*y
-" copy word to clipboard
-nmap ,d "*yiw
-" underline current line, markdown style
-nmap ,u "zyy"zp:.s/./-/g<CR>:let @/ = ""<CR>
-
-" delete inner xml tag
-nmap ,dit dt<dT>
-nmap ,cit dt<cT>
-
-" kortina - move note to the old-notes file
 nmap ,kk ^"=strftime("%Y-%m-%d ")<CR>P<Esc>:,!~/Dropbox/nix/bin/note_archive.sh>/dev/null<CR>
 nmap ,ll ^"=strftime("%Y-%m-%d ")<CR>P<Esc>:,!~/Dropbox/nix/bin/note_not_done.sh>/dev/null<CR>
 

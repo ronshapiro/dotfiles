@@ -40,18 +40,20 @@ plugins=(
     heroku
     # mvn
     node
+    nosetests
     npm
     osx
     pip
     ruby
     supervisor
     vagrant
-    virtualenv
-    virtualenvwrapper
+    # virtualenv
+    # virtualenvwrapper
 )
 
 source $ZSH/oh-my-zsh.sh #is this necessary?
 export EDITOR="emacs"
+alias albus="cd ~/code/open-source/albus/android"
 alias e="emacs"
 alias ec="emacsclient"
 alias es="emacs --daemon"
@@ -108,7 +110,7 @@ alias gdh="git diff HEAD"
 alias gds="git diff --staged"
 alias gs="git status"
 alias gsl="git stash list"
-alias gss="git stash save"
+alias gss="git add -A && git stash save"
 gsa () {
     if (( $# == 0 )); then
         git stash apply
@@ -150,6 +152,9 @@ alias grh="git reset --hard"
 alias gl="git lg"
 #alias gpom="git push origin master"
 alias gpo="git push origin"
+function gitupstream() {
+    git branch --set-upstream-to=origin/$(current_branch) $(current_branch)
+}
 alias battery="battery_pct_remaining"
 alias facetime_kill="sudo killall VDCAssistant"
 alias py=python
@@ -166,13 +171,16 @@ export CLOJURE_JAR=`ffind /usr/local/Cellar/clojure/ clojure | grep .jar | tail 
 alias clojure="java -cp $CLOJURE_JAR clojure.main"
 
 export JAVA_HOME=$(/usr/libexec/java_home)
+export JAVA8_HOME=$JAVA_HOME
+export JAVA6_HOME='/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home'
+export GROOVY_HOME=/usr/local/opt/groovy/libexec
 
 # virtualenv setup
-export WORKON_HOME=~/.venvs
-VIRTUALENV_HOME=/usr/local/bin/virtualenvwrapper.sh
-if [ ! -f  ]; then
-    source $VIRTUALENV_HOME
-fi
+# export WORKON_HOME=~/.venvs
+# VIRTUALENV_HOME=/usr/local/bin/virtualenvwrapper.sh
+# if [ ! -f  ]; then
+#     source $VIRTUALENV_HOME
+# fi
 #export PROJECT_HOME=~/.Devel
 
 bindkey '^P' history-beginning-search-backward
@@ -187,6 +195,10 @@ function longPrompt(){
 }
 function shortPrompt(){
     PROMPT_LENGTH="%1~"
+    precmd
+}
+function mediumPrompt(){
+    PROMPT_LENGTH="%2~"
     precmd
 }
 
@@ -276,10 +288,11 @@ precmd () {
 
 
 if [[ -z $PROMPT_LENGTH ]]; then
-    shortPrompt # don't reset to shortPrompt after .zshrc is reloaded
+    mediumPrompt # don't reset to mediumPrompt after .zshrc is reloaded
 fi
 
 export PATH="/usr/local/bin:/usr/local/mybin:/usr/local/sbin"
+PATH=$PATH":/usr/local/Cellar/go_google_appengine/"
 PATH=$PATH":/usr/local/share/npm/bin/"
 PATH=$PATH":usr/local/share/python"
 PATH=$PATH":/usr/local/mongodb/bin:/usr/local/mysql/bin"
@@ -379,3 +392,6 @@ export ANT_ARGS='-logger org.apache.tools.ant.listener.AnsiColorLogger'
 export EC2_HOME="/usr/local/etc/ec2-api-tools-1.6.12.0"
 export PATH=$PATH:$EC2_HOME/bin 
 # source ~/.aws_profile
+
+eval "$(direnv hook zsh)" # end with this
+source ~/.dotfiles/z.sh

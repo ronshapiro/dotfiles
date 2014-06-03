@@ -27,7 +27,7 @@
         ci = commit -a
         df = diff
         dw = diff --color-words
-        idff = diff       
+        idff = diff
         dwc = diff -w -M --color-words
         lg = log --pretty=format:'%C(blue)%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative
         ll = log -p
@@ -39,6 +39,7 @@
         rbc = rebase --continue
         re = remote
         st = status -sb
+        staged = diff --cached
         sup = "submodule foreach 'git co master; git up'"
         #sup = submodule foreach git pull origin master
         todo = grep --ignore-case "TODO"
@@ -46,7 +47,8 @@
         undopush = push -f origin HEAD^:master
         up = pull --rebase
         grepall = !git rev-list --all | xargs git grep
-        true-blame = blame -wMC # ignores whitespace, moved lines in the same file, and moved lines across files
+        hist = grepall
+        tblame = blame -wMC # ignores whitespace, moved lines in the same file, and moved lines across files
 [core]
         editor = emacs
         excludesfile = /Users/ronshapiro/.gitignore

@@ -70,7 +70,7 @@ alias .reload_zsh=reload_zsh
 alias .zshrc="$EDITOR ~/.zshrc"
 # export ANDROID_HOME=~/code/android-sdk
 export ANDROID_HOME="/usr/local/opt/android-sdk"
-source $HOME/.dotfiles/android-aliases/android-aliases.sh
+source $HOME/.dotfiles/android-aliases.sh
 alias aliases="alias -p" #print all aliases
 alias .tmux="$EDITOR ~/.tmux.conf"
 alias ackl="ack -i --literal"

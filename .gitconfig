@@ -29,6 +29,7 @@
         dw = diff --color-words
         idff = diff
         dwc = diff -w -M --color-words
+        live = !git co `git tag -l | tail -n 1`
         lg = log --pretty=format:'%C(blue)%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative
         ll = log -p
         ls = log --pretty=format:'%C(yellow)%h %C(blue)%ad%C(red)%d %C(reset)%s%C(green) [%cn]' --decorate --date=short --numstat

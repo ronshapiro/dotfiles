@@ -286,3 +286,9 @@
 
 (require 'go-mode-load)
 
+(let ((ANDROID_HOME (getenv "ANDROID_HOME")))
+  (if (not (string= "" ANDROID_HOME))
+      (load (concat ANDROID_HOME "/tools/lib/android.el"))
+    )
+  )
+

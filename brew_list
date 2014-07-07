@@ -2,6 +2,7 @@ ack
 android-sdk
 ant
 apple-gcc42
+aspell
 autoconf
 automake
 bash-completion
@@ -15,6 +16,8 @@ cmake
 cscope
 curl
 dart
+devtodo
+direnv
 emacs
 findbugs
 findutils
@@ -31,13 +34,16 @@ gfortran
 ghostscript
 gifsicle
 git
+git-extras
 git-flow
 git-ftp
 giter8
 gitsh
 glib
 gmp
+gnupg
 go
+go_google_appengine
 gradle
 grails
 graphicsmagick
@@ -69,6 +75,7 @@ macvim
 markdown
 maven
 mawk
+mercurial
 mobile-shell
 mongodb
 mpfr

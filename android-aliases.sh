@@ -38,4 +38,3 @@ ascreen(){
 # alias to send broadcasted events to a device
 alias broadcast="adb shell am broadcast"
 alias genymotionshell="/Applications/Genymotion\ Shell.app/Contents/MacOS/genyshell ; exit;"
-alias pidcat="~/code/open-source/pidcat/pidcat/pidcat.py --color-gc"

@@ -145,8 +145,11 @@ for (( i=0; i < 10; i++ )); do
     alias $i="fg %$i"
 done
 
-export CLOJURE_JAR=`ffind /usr/local/Cellar/clojure/ clojure | grep .jar | tail -n 1`
-alias clojure="java -cp $CLOJURE_JAR clojure.main"
+CLOJURE_DIR=/usr/local/Cellar/clojure/
+if [[ -e $CLOJURE_DIR ]]; then
+   export CLOJURE_JAR=`ffind $CLOJURE_DIR clojure | grep .jar | tail -n 1`
+   alias clojure="java -cp $CLOJURE_JAR clojure.main"
+fi
 
 export JAVA_HOME=$(/usr/libexec/java_home)
 export JAVA8_HOME=$JAVA_HOME
@@ -321,7 +324,7 @@ setopt ALIASES
   # self defined function to cleanup
 # ab - Apache HTTP server benchmarking tool
 
-source ~/.venmorc
+[[ -e ~/.venmorc ]] && source ~/.venmorc
 
 killadobe() {
     # pkill -9 -f apache # kills processes named apache # http://www.quora.com/Linux/What-are-some-time-saving-tips-that-every-Linux-user-should-know/answer/Christian-Nygaard?__snids__=195709448&__nsrc__=2

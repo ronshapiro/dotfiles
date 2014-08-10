@@ -7,6 +7,8 @@ notInstalledIndex=0;
 removedIndex=0;
 
 function install(){
+    which brew || ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+    [[ -z $ZSH ]] && curl -L http://install.ohmyz.sh | sh
     for file in .*; do
 	      if [[ -e "$HOME/$file" ]]; then
 	          if [[ ! -L "$HOME/$file" ]]; then

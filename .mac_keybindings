@@ -1,0 +1,124 @@
+{
+	/*
+	alignCenter: newDocument:
+	alignJustified: openDocument:
+	alignLeft: orderBack:
+	alignRight: orderFront:
+	breakUndoCoalescing orderFrontLinkPanel:
+	cancelOperation: orderFrontListPanel:
+	capitalizeWord: orderFrontSpacingPanel:
+	center orderFrontTablePanel:
+	centerSelectionInVisibleArea: outline:
+	changeCaseOfLetter: pageDown:
+	checkSpelling: pageUp:
+	clearRecentDocuments: paste:
+	complete: pasteAsPlainText:
+	copy: pasteAsRichText:
+	copyFont: pasteFont:
+	copyRuler: pasteRuler:
+	cut: performClose:
+	delete: performMiniaturize:
+	deleteBackward: performZoom:
+	deleteBackwardByDecomposingPreviousCharacter: printDocument:
+	deleteForward: raiseBaseline:
+	deleteToBeginningOfLine: revertDocumentToSaved:
+	deleteToBeginningOfParagraph: runPageLayout:
+	deleteToEndOfLine: saveAllDocuments:
+	deleteToEndOfParagraph: saveDocument:
+	deleteToMark: saveDocumentAs:
+	deleteWordBackward: saveDocumentTo:
+	deleteWordForward: scrollLineDown:
+	hide: scrollLineUp:
+	ignoreSpelling: scrollPageDown:
+	indent: scrollPageUp:
+	insertBacktab: selectAll:
+	insertContainerBreak: selectLine:
+	insertLineBreak: selectParagraph:
+	insertNewline: selectToMark:
+	insertNewlineIgnoringFieldEditor: selectWord:
+	insertParagraphSeparator: setMark:
+	insertTab: showContextHelp:
+	insertTabIgnoringFieldEditor: showGuessPanel:
+	insertText: startSpeaking:
+	loosenKerning: stopSpeaking:
+	lowerBaseline: subscript:
+	lowercaseWord: superscript:
+	moveBackward: swapWithMark:
+	moveBackwardAndModifySelection: terminate:
+	moveDown: tightenKerning:
+	moveDownAndModifySelection: toggleBaseWritingDirection:
+	moveForward: toggleContinuousSpellChecking:
+	moveForwardAndModifySelection: toggleRuler:
+	moveLeft: transpose:
+	moveLeftAndModifySelection: transposeWords:
+	moveRight: turnOffKerning:
+	moveRightAndModifySelection: turnOffLigatures:
+	moveToBeginningOfDocument: underline:
+	moveToBeginningOfDocumentAndModifySelection: unscript:
+	moveToBeginningOfLine: uppercaseWord:
+	moveToBeginningOfLineAndModifySelection: useAllLigatures:
+	moveToBeginningOfParagraph: useStandardKerning:
+	moveToEndOfDocument: useStandardLigatures:
+	moveToEndOfDocumentAndModifySelection: yank:
+	moveToEndOfLineAndModifySelection:
+	moveToEndOfLine:
+	moveToEndOfParagraph:
+	moveUp:
+	moveUpAndModifySelection:
+	moveWordBackward:
+	moveWordBackwardAndModifySelection:
+	moveWordForward:
+	moveWordForwardAndModifySelection:
+	moveWordLeft:
+	moveWordLeftAndModifySelection:
+	moveWordRight:
+	moveWordRightAndModifySelection:
+	*/
+	"~f" = "moveWordForward:";	
+	"~b" = "moveWordBackward:";
+	"~d" = "deleteWordForward:";
+	"~<" = "moveToBeginningOfDocument:";
+	"~>" = "moveToEndOfDocument:";
+	"~v" = "pageUp:";
+	
+	"^-" = "undo:";
+	"^/" = "undo:";
+	"^t" = "transpose:";
+	"~t" = "transposeWords:";
+	"~/" = "complete:";
+	"^g" = "_cancelKey:";
+	"^a" = "moveToBeginningOfLine:";
+  "~a" = "moveToBeginningOfLine:";
+	"^e" = "moveToEndOfLine:";
+	"^y" = "paste:";
+	"^w" = "deleteToMark:";
+	
+	"^x" = {
+		"^s" = "save:";				/* C-x C-s */
+		"^w" = "saveAs:";			/* C-x C-w */
+	};
+
+  /* TODO: C-x C-c = performClose: */
+	
+	"^s" = "ISIM_incrementalSearch:";
+	"^r" = "ISIM_reverseIncrementalSearch:";
+	
+	
+	"^@" = "setMark:";
+	"^ " = "setMark:";
+	
+    /* This command will let Ctrl-Shift-H <></> the previous word
+	* into an HTML/XML opening and closing tag pair. */
+	"^H" = ( "setMark:",
+		"moveWordBackward:",
+		"deleteToMark:",
+		"insertText:", "<",
+		"yank:",
+		"insertText:", ">",
+		"setMark:",
+		"insertText:", "</",
+		"yank:",
+		"insertText:", ">",
+		"swapWithMark:"
+		);
+}

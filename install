@@ -26,6 +26,9 @@ function install(){
             installed[$installedIndex]="$file"
             if [[ $file == ".lesskey" ]]; then
                 `which lesskey` && `lesskey .lesskey`
+            elif [[ $file == ".mac_keybindings" ]]; then 
+                keybinding_file='~/LibraryKeyBindings/DefaultKeyBinding.dict'
+                [[ -e $keybinding_file ]] || ln -s $dir/.mac_keybindings $keybinding_file
             fi
             let "installedIndex += 1"
 	      fi

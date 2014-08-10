@@ -216,6 +216,7 @@
 (add-to-list 'auto-mode-alist '("[.]pp$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("[.]zsh$" . sh-mode))
 (add-to-list 'auto-mode-alist '("[.]json$" . js-mode))
+(add-to-list 'auto-mode-alist '("[.]scala$" . scala-mode))
 
 ;(visual-line-mode t)
 ;(global-visual-line-mode t)
@@ -258,8 +259,12 @@
 (eval-after-load 'python
   '(define-key python-mode-map [?\M-p] 'add-py-debug))
 
-(add-to-list 'load-path "~/.emacs.d/scala-mode2/")
-(require 'scala-mode2)
+(add-hook 'scala-mode-hook
+  '(if (file-exists-p "~/.emacs.d/scala-mode2/")
+       (progn
+         (add-to-list 'load-path "~/.emacs.d/scala-mode2/")
+         (require 'scala-mode2))
+     ))
 
 
 (add-to-list 'load-path "~/.emacs.d/Emacs-Groovy-Mode/")

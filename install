@@ -8,7 +8,7 @@ removedIndex=0;
 
 function install(){
     which brew || ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-    [[ -z $ZSH ]] && curl -L http://install.ohmyz.sh | sh
+    [[ -z ~/.oh-my-zsh ]] && curl -L http://install.ohmyz.sh | sh
     for file in .*; do
 	      if [[ -e "$HOME/$file" ]]; then
 	          if [[ ! -L "$HOME/$file" ]]; then
@@ -29,8 +29,11 @@ function install(){
             if [[ $file == ".lesskey" ]]; then
                 `which lesskey` && `lesskey .lesskey`
             elif [[ $file == ".mac_keybindings" ]]; then 
-                keybinding_file='~/LibraryKeyBindings/DefaultKeyBinding.dict'
-                [[ -e $keybinding_file ]] || ln -s $dir/.mac_keybindings $keybinding_file
+		keybinding_dir="$HOME/Library/KeyBindings"
+                if [[ ! -e $keybinding_dir ]]; then
+		    mkdir -p $keybinding_dir
+		    ln -s $dir/.mac_keybindings $keybinding_dir/DefaultKeyBinding.dict
+		fi
             fi
             let "installedIndex += 1"
 	      fi

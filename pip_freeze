@@ -1,9 +1,9 @@
 Django==1.6.1
 Flask==0.10.1
-Jinja2==2.7.2
-MarkupSafe==0.18
+Jinja2==2.7.3
+MarkupSafe==0.23
 Pygments==1.6
-Werkzeug==0.9.4
+Werkzeug==0.9.6
 asciinema==0.9.7
 beautifulsoup4==4.3.2
 bpython==0.12
@@ -11,10 +11,11 @@ colorama==0.2.7
 distribute==0.6.45
 fontforge==1.0
 greenlet==0.4.1
+gunicorn==19.0.0
 httplib2==0.8
 ipdb==0.7
 ipython==1.1.0
-itsdangerous==0.23
+itsdangerous==0.24
 jenkins==1.0.2
 libxml2-python==2.9.1
 matplotlib==1.2.1

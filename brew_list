@@ -6,6 +6,7 @@ aspell
 autoconf
 automake
 bash-completion
+boost
 brew-cask
 calc
 clojure
@@ -39,11 +40,14 @@ git-flow
 git-ftp
 giter8
 gitsh
+glew
 glib
+glm
 gmp
 gnupg
 go
 go_google_appengine
+gource
 gradle
 grails
 graphicsmagick
@@ -52,6 +56,7 @@ heroku-toolbelt
 hub
 imagemagick
 isl
+javarepl
 jbig2dec
 jpeg
 jruby
@@ -107,6 +112,8 @@ ruby
 sbt
 scala
 scons
+sdl2
+sdl2_image
 sqlite
 tesseract
 tig
@@ -117,6 +124,7 @@ v8
 vim
 wdiff
 webkit2png
+webp
 wget
 xz
 yasm

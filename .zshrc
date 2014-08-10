@@ -77,9 +77,10 @@ ffind () {
 }
 alias .dotfiles="cd ~/.dotfiles"
 alias .code="cd ~/code/"
+alias .ignore="$EDITOR .gitignore"
 alias gc="git commit"
 alias gca="git commit -a"
-alias gg="git grep --ignore-case" #make sure to do this within home git dir
+alias gg="git grep --break --ignore-case"
 alias gcam="git commit -am"
 alias gd="git diff"
 alias gdc="git diff --cached"

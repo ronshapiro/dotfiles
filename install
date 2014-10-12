@@ -61,6 +61,10 @@ function install(){
     fi
 }
 
+function setDefaults() {
+    defaults write NSGlobalDomain KeyRepeat -int 0
+}
+
 function uninstall(){
     for file in .*; do
 	      if [[ $file != "." ]] && [[ $file != ".." ]]; then
@@ -111,6 +115,7 @@ else
     for arg in $@; do
         if [[ $arg == "-i" || $arg == "--install" ]]; then
             install
+            setDefaults
         #elif [[ $arg == "-u" || $arg == "--uninstall" ]]; then
         #    uninstall
         elif [[ $arg == "-b" || $arg == "--brew" ]]; then
